@@ -68,7 +68,7 @@ function DemoScreen({ step }: { step: number }) {
           <span>코딩 실력 향상</span><strong>5일째 참여 중</strong><div><i /></div><small>5 / 28회 인증</small>
         </div>
         <div className={styles.uploadArea}><span>＋</span><strong>오늘의 인증 사진</strong><small>학습한 화면이나 노트를 올려주세요</small></div>
-        <button type="button" tabIndex={-1}>미션 인증하기</button>
+        <span className={styles.demoAction}>미션 인증하기</span>
       </div>
     );
   }

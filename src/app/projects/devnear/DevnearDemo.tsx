@@ -30,7 +30,7 @@ function DemoScreen({ step }: { step: number }) {
         <label>활동 지역<div><strong>서울</strong><span>경기</span><span>원격</span></div></label>
         <label>필요 기술<div><strong>Java</strong><strong>Spring</strong><span>MySQL</span><span>Redis</span></div></label>
         <label>프로젝트 기간<div className={styles.inputMock}>3개월</div></label>
-        <button type="button" tabIndex={-1}>조건에 맞는 프리랜서 보기</button>
+        <span className={styles.demoAction}>조건에 맞는 프리랜서 보기</span>
       </div>
     </div>
   );
@@ -62,7 +62,7 @@ function DemoScreen({ step }: { step: number }) {
         <div><span>추천 점수</span><strong>94%</strong></div>
         <div><span>보유 기술</span><p><b>Java</b><b>Spring</b><b>MySQL</b></p></div>
         <div><span>프로젝트</span><strong>완료 12건 · 평점 4.8</strong></div>
-        <button type="button" tabIndex={-1}>프로젝트 제안 보내기</button>
+        <span className={styles.demoAction}>프로젝트 제안 보내기</span>
       </div>
     </div>
   );

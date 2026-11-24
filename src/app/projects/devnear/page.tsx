@@ -4,7 +4,7 @@ import DevnearDemo from "./DevnearDemo";
 import styles from "./devnear.module.css";
 
 export const metadata: Metadata = {
-  title: "DEVNEAR | 전성 포트폴리오",
+  title: "DEVNEAR",
   description: "지역과 기술을 기준으로 클라이언트와 프리랜서를 연결하는 매칭 서비스",
 };
 
@@ -35,6 +35,7 @@ export default function DevnearPage() {
             <div><dt>기간</dt><dd>2026.04.03 – 2026.04.27</dd></div>
             <div><dt>팀</dt><dd>4명</dd></div>
             <div><dt>역할</dt><dd>저장소 관리 · 백엔드 · 프론트엔드</dd></div>
+            <div><dt>기술</dt><dd>Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Redis · React</dd></div>
           </dl>
         </div>
 
@@ -111,6 +112,10 @@ export default function DevnearPage() {
               <li>JWT Claim으로 인증 필터 단계의 사용자 DB 조회 제거</li>
               <li>요청 범위 UserContext로 같은 요청의 중복 조회 최소화</li>
             </ul>
+            <div className={styles.evidenceGrid}>
+              <p><strong>확인</strong>로그인 후 역할별 API 접근과 한 요청 안의 사용자 재사용 흐름을 직접 확인했습니다.</p>
+              <p><strong>한계</strong>동시 요청 전체에서 사용자를 공유하는 캐시가 아니라 요청 하나 안에서만 재사용합니다.</p>
+            </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.authVisual}`} aria-label="JWT 인증과 사용자 조회 분리 흐름">
             <div><small>BEARER TOKEN</small><strong>userId · role</strong></div><i>→</i>
@@ -130,8 +135,12 @@ export default function DevnearPage() {
             <ul>
               <li>요구 기술과 보유 기술의 교집합 50%</li>
               <li>평점 정규화 30%와 완료 프로젝트 수 20%</li>
-              <li>MVP 가설임을 명시하고 운영 데이터 기반 개선 방향 정리</li>
+              <li>동점일 때 프로필 식별자로 정렬 순서를 고정</li>
             </ul>
+            <div className={styles.evidenceGrid}>
+              <p><strong>확인</strong>같은 조건의 후보가 같은 점수와 순서로 반환되는지 샘플 데이터로 확인했습니다.</p>
+              <p><strong>한계</strong>가중치는 MVP 가설이며 실제 운영 사용자 데이터로 효과를 검증하지 못했습니다.</p>
+            </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.matchVisual}`} aria-label="규칙 기반 매칭 점수 구성">
             <div className={styles.scoreRing}><strong>89</strong><span>추천 점수</span></div>
@@ -155,13 +164,43 @@ export default function DevnearPage() {
             <ul>
               <li>P6Spy로 DELETE·INSERT 실행 순서 확인</li>
               <li>컬렉션 clear 후 flush로 삭제를 DB에 먼저 반영</li>
-              <li>양방향 연관관계도 객체 양쪽에서 함께 갱신</li>
+              <li>같은 기술을 다시 추가해도 DELETE 이후 INSERT되도록 순서 고정</li>
             </ul>
+            <div className={styles.evidenceGrid}>
+              <p><strong>확인</strong>P6Spy 로그에서 DELETE 다음 INSERT가 실행되는지 확인했습니다.</p>
+              <p><strong>한계</strong>명시적 flush에 의존하므로 기술 변경 회귀를 막는 통합 테스트 보강이 필요합니다.</p>
+            </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.sqlVisual}`} aria-label="JPA 쓰기 지연과 SQL 실행 순서 해결">
             <div className={styles.codeHeader}><span>ProjectService.java</span><span>SQL ORDER</span></div>
             <code><span>project.getProjectSkills().clear();</span><strong>entityManager.flush();</strong><span>project.updateSkills(newSkills);</span></code>
             <div className={styles.sqlOrder}><span>DELETE</span><i>→</i><span>INSERT</span><strong>복합키 충돌 방지</strong></div>
+          </div>
+        </article>
+
+        <article className={`${styles.contribution} ${styles.reverseContribution}`}>
+          <div className={styles.contributionCopy}>
+            <span>04 · 저장 후 프로필 404</span>
+            <h3>저장된 프로필이<br />바로 사라져 보이지 않도록.</h3>
+            <p>
+              온보딩에서 프로필을 저장했지만 User 객체에는 새 프로필이 연결되지 않아,
+              같은 흐름의 다음 조회에서 프로필이 없다는 404가 발생했습니다. 저장이 반환한 영속 객체를
+              User 양쪽 연관관계에 연결해 객체 상태와 DB 상태를 맞췄습니다.
+            </p>
+            <ul>
+              <li>save가 반환한 ClientProfile·FreelancerProfile 사용</li>
+              <li>User의 양방향 연관관계를 함께 갱신</li>
+              <li>온보딩 저장 후 프로필 조회 흐름 재확인</li>
+            </ul>
+            <div className={styles.evidenceGrid}>
+              <p><strong>확인</strong>신규 사용자 온보딩 직후 저장된 프로필이 조회되는지 주요 화면 흐름에서 다시 확인했습니다.</p>
+              <p><strong>한계</strong>당시에는 이 404 재발을 막는 전용 자동화 회귀 테스트까지 추가하지 못했습니다.</p>
+            </div>
+          </div>
+          <div className={`${styles.flowVisual} ${styles.relationVisual}`} aria-label="프로필 저장과 양방향 연관관계 갱신 흐름">
+            <div><small>BEFORE</small><strong>Profile 저장</strong><span>User.profile = null</span><b>404</b></div>
+            <i>→</i>
+            <div><small>AFTER</small><strong>저장 객체 연결</strong><span>User ↔ Profile</span><b>조회 성공</b></div>
           </div>
         </article>
       </section>

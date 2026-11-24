@@ -1,3 +1,5 @@
+import SiteHeader from "./SiteHeader";
+
 const projects = [
   {
     id: "dondok",
@@ -6,6 +8,7 @@ const projects = [
     description:
       "참여 횟수에 따라 공동 보증금을 나누는 지분 기반 습관 형성 서비스",
     role: "백엔드 · 프론트엔드",
+    tech: "Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Next.js",
     href: "/projects/dondok",
   },
   {
@@ -15,6 +18,7 @@ const projects = [
     description:
       "지역과 보유 기술을 기준으로 클라이언트와 프리랜서를 연결하는 매칭 서비스",
     role: "저장소 관리 · 백엔드 · 프론트엔드",
+    tech: "Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Redis",
     href: "/projects/devnear",
   },
 ];
@@ -22,24 +26,16 @@ const projects = [
 export default function Home() {
   return (
     <main>
-      <header className="site-header">
-        <a className="wordmark" href="#top">전성</a>
-        <nav aria-label="주요 메뉴">
-          <a href="#projects">프로젝트</a>
-          <a href="/jeonseong-resume.pdf" target="_blank">이력서</a>
-          <a href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">Notion</a>
-          <a href="mailto:jeonseong0120@gmail.com">연락처</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <section className="hero" id="top">
         <div className="hero-intro">
-          <p className="hero-kicker">전성 <span>Product Engineer</span></p>
+          <p className="hero-kicker">전성 <span>백엔드 개발자</span></p>
           <h1>
-            사용자가 쓰는<br />
-            <span>흐름을 만듭니다.</span>
+            Java·Spring으로<br />
+            <span>서비스의 흐름을 만듭니다.</span>
           </h1>
-          <p className="hero-subtitle">백엔드에서 화면까지.</p>
+          <p className="hero-subtitle">API에서 끝내지 않고, 화면에 도착한 결과까지 확인합니다.</p>
           <div className="hero-actions">
             <a className="primary-link" href="#projects">프로젝트 보기</a>
             <a className="secondary-link" href="/jeonseong-resume.pdf" target="_blank">이력서 보기</a>
@@ -69,7 +65,7 @@ export default function Home() {
                 <span />
                 <strong />
                 <p /><p />
-                <button type="button" tabIndex={-1}>완료된 사용자 흐름</button>
+                <span className="proof-ui-result">주요 화면 흐름 확인</span>
               </div>
             </div>
           </div>
@@ -79,10 +75,27 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="experience-section" id="experience">
+        <div className="experience-heading">
+          <p>Experience</p>
+          <h2>개발과 협업을<br />실제 일정 안에서 배웠습니다.</h2>
+        </div>
+        <div className="experience-list">
+          <article>
+            <time>2026.07 – 2026.08</time>
+            <div><strong>그렙 생성형 AI 활용 개발 인턴십</strong><p>4인 팀 팀장 · 백엔드 API, 프론트엔드 연동, 교차 점검과 일정 조율</p></div>
+          </article>
+          <article>
+            <time>2025.12 – 2026.06</time>
+            <div><strong>프로그래머스 생성형 AI 백엔드 데브코스</strong><p>Java·Spring 기반 팀 프로젝트 · 서비스 설계, 구현, 배포와 협업</p></div>
+          </article>
+        </div>
+      </section>
+
       <section className="projects-section" id="projects">
         <div className="projects-heading">
           <p>Selected Projects</p>
-          <h2>직접 만든 두 개의 서비스.</h2>
+          <h2>백엔드와 화면을 맡은<br />두 팀 프로젝트.</h2>
           <span>서비스를 먼저 이해하고, 그 안에서 해결한 기술 문제를 확인할 수 있습니다.</span>
         </div>
 
@@ -94,6 +107,7 @@ export default function Home() {
                 <h3>{project.name}</h3>
                 <p className="project-description">{project.description}</p>
                 <p className="project-role">{project.role}</p>
+                <p className="project-tech">{project.tech}</p>
                 <a className="project-link" href={project.href}>프로젝트 살펴보기</a>
               </div>
 
@@ -111,7 +125,7 @@ export default function Home() {
                       <div className="mock-content">
                         <p>매일 알고리즘 문제를 풀고 인증하며 함께 성장합니다.</p>
                         <div className="mock-stat"><span>미션 수행 기간</span><strong>총 28일</strong></div>
-                        <button type="button" tabIndex={-1}>입장 신청 · 보증금 30,000원</button>
+                        <span className="mock-action">입장 신청 · 보증금 30,000원</span>
                       </div>
                     </div>
                   </div>
@@ -131,7 +145,7 @@ export default function Home() {
                           <div className="talent-card" key={region}>
                             <div className={`talent-cover cover-${index + 1}`} />
                             <strong>{["백엔드 개발자", "프론트엔드 개발자", "웹 디자이너", "풀스택 개발자"][index]}</strong>
-                            <p>JAVA · REACT</p>
+                            <p>{["JAVA · SPRING", "REACT · TYPESCRIPT", "FIGMA · DESIGN SYSTEM", "NEXT.JS · SPRING"][index]}</p>
                             <span>{region}</span>
                           </div>
                         ))}

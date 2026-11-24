@@ -5,10 +5,12 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--background); color: var(--foreground); font-family: -apple-system, BlinkMacSystemFont, Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif; }
 a { color: inherit; text-decoration: none; }
+h1, h2, h3, p, span, dd { word-break: keep-all; overflow-wrap: break-word; }
 main { width: min(100% - 48px, 1240px); margin: 0 auto; }
 .site-header { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; min-height: 64px; border-bottom: 1px solid color-mix(in srgb, var(--line) 76%, transparent); background: color-mix(in srgb, var(--background) 78%, transparent); backdrop-filter: saturate(180%) blur(20px); }
 .wordmark, .site-header nav a, footer { font-size: 12px; font-weight: 700; letter-spacing: .08em; }
 .site-header nav { display: flex; gap: 28px; }
+.mobile-menu { display: none; }
 .hero { padding: clamp(88px, 10vw, 144px) 0 120px; border-bottom: 1px solid var(--line); }
 .hero-intro { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .hero-kicker { margin: 0 0 20px; font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
@@ -44,7 +46,15 @@ footer { color: var(--muted); }
 .proof-ui > span { display: block; width: 54px; height: 8px; border-radius: 99px; background: #0071e3; }
 .proof-ui > strong { display: block; width: 72%; height: 24px; margin-top: 17px; border-radius: 6px; background: #222226; }
 .proof-ui p { width: 92%; height: 8px; margin: 16px 0 0; border-radius: 99px; background: #d8d8dc; }.proof-ui p + p { width: 67%; margin-top: 8px; }
-.proof-ui button { width: 100%; min-height: 46px; margin-top: 42px; border: 0; border-radius: 12px; background: #1d1d1f; color: #fff; font-size: 11px; font-weight: 750; }
+.proof-ui-result { width: 100%; min-height: 46px; display: flex; align-items: center; justify-content: center; margin-top: 42px; border-radius: 12px; background: #1d1d1f; color: #fff; font-size: 11px; font-weight: 750; }
+.experience-section { display: grid; grid-template-columns: minmax(280px,.72fr) minmax(0,1.28fr); gap: clamp(48px,8vw,110px); padding: 132px 0; border-bottom: 1px solid var(--line); }
+.experience-heading > p { margin: 0 0 16px; color: var(--blue); font-size: 15px; font-weight: 750; }
+.experience-heading h2 { margin: 0; font-size: clamp(38px,4.5vw,58px); line-height: 1.08; letter-spacing: -.055em; }
+.experience-list { border-top: 1px solid var(--line); }
+.experience-list article { display: grid; grid-template-columns: 150px 1fr; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+.experience-list time { color: var(--muted); font-size: 13px; font-weight: 700; }
+.experience-list strong { display: block; font-size: 18px; }
+.experience-list p { margin: 9px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
 .projects-section { padding: 144px 0; border-bottom: 1px solid var(--line); }
 .projects-heading { max-width: 780px; margin: 0 auto 72px; text-align: center; }
 .projects-heading > p { margin: 0 0 15px; color: var(--blue); font-size: 16px; font-weight: 700; }
@@ -58,6 +68,7 @@ footer { color: var(--muted); }
 .project-copy h3 { margin: 0; font-size: clamp(54px, 7vw, 92px); line-height: .95; letter-spacing: -.07em; }
 .project-description { max-width: 440px; margin: 26px 0 0; color: #3f3f43; font-size: 20px; line-height: 1.65; word-break: keep-all; }
 .project-role { margin: 22px 0 0; color: var(--muted); font-size: 14px; font-weight: 600; }
+.project-tech { max-width: 470px; margin: 10px 0 0; color: #48484c; font-size: 12px; line-height: 1.6; font-weight: 650; }
 .project-link { display: inline-flex; align-items: center; min-height: 46px; margin-top: 34px; padding: 0 21px; border-radius: 999px; background: var(--foreground); color: #fff; font-size: 14px; font-weight: 700; transition: transform .2s ease, opacity .2s ease; }
 .project-link:hover { transform: translateY(-2px); opacity: .86; }
 .project-visual { min-width: 0; }
@@ -77,7 +88,7 @@ footer { color: var(--muted); }
 .mock-stat span, .mock-stat strong { display: block; }
 .mock-stat span { color: #8a8177; font-size: 10px; }
 .mock-stat strong { margin-top: 8px; font-size: 20px; }
-.mock-content button { width: 100%; min-height: 50px; margin-top: 12px; border: 0; border-radius: 15px; background: #ffca31; color: #382b0e; font-weight: 800; }
+.mock-action { width: 100%; min-height: 50px; display: flex; align-items: center; justify-content: center; margin-top: 12px; border-radius: 15px; background: #ffca31; color: #382b0e; font-size: 13px; font-weight: 800; }
 .devnear-visual { align-self: stretch; display: flex; align-items: center; }
 .browser-frame { width: 125%; overflow: hidden; border: 1px solid rgba(255, 255, 255, .8); border-radius: 20px; background: #fff; box-shadow: 0 30px 70px rgba(135, 78, 23, .18); }
 .browser-bar { height: 40px; display: flex; align-items: center; gap: 7px; padding: 0 15px; background: #f6f6f6; border-bottom: 1px solid #e6e6e6; }
@@ -108,8 +119,14 @@ footer { display: flex; justify-content: space-between; align-items: center; min
 
 @media (max-width: 720px) {
   main { width: min(100% - 32px, 1240px); }
-  .site-header nav a { display: none; }
-  .site-header nav a:last-child { display: inline; }
+  .desktop-nav { display: none !important; }
+  .mobile-menu { position: relative; display: block; }
+  .mobile-menu summary { width: 42px; height: 42px; display: grid; align-content: center; gap: 6px; padding: 0 10px; border-radius: 50%; background: rgba(255,255,255,.74); cursor: pointer; list-style: none; }
+  .mobile-menu summary::-webkit-details-marker { display: none; }
+  .mobile-menu summary span { height: 2px; display: block; border-radius: 99px; background: var(--foreground); }
+  .mobile-menu nav { position: absolute; top: 50px; right: 0; width: 190px; display: grid; gap: 0; overflow: hidden; padding: 8px; border: 1px solid rgba(0,0,0,.08); border-radius: 18px; background: rgba(255,255,255,.94); box-shadow: 0 18px 44px rgba(0,0,0,.14); backdrop-filter: blur(20px); }
+  .mobile-menu nav a { display: block; padding: 12px 14px; border-radius: 11px; font-size: 13px; letter-spacing: 0; }
+  .mobile-menu nav a:hover { background: #f0f0f2; }
   .hero { padding: 76px 0 88px; }
   .hero-kicker { font-size: 15px; }
   .hero h1 { font-size: clamp(38px, 12.5vw, 56px); }
@@ -122,6 +139,9 @@ footer { display: flex; justify-content: space-between; align-items: center; min
   .proof-connector { gap: 0; }.proof-connector i { transform: rotate(90deg); }
   .proof-server { display: none; }.proof-screen { width: 100%; transform: none; }.proof-ui { min-height: 220px; padding: 28px; }
   .projects-section { padding: 96px 0; }
+  .experience-section { grid-template-columns: 1fr; gap: 46px; padding: 96px 0; text-align: center; }
+  .experience-list { text-align: left; }
+  .experience-list article { grid-template-columns: 1fr; gap: 10px; }
   .projects-heading { margin-bottom: 48px; }
   .projects-heading h2 { font-size: 44px; }
   .projects-heading > span { font-size: 16px; }
@@ -132,12 +152,15 @@ footer { display: flex; justify-content: space-between; align-items: center; min
   .project-role { font-size: 13px; }
   .phone-frame { width: 280px; transform: translateY(62px) rotate(1deg); }
   .phone-screen { min-height: 540px; }
-  .devnear-visual { width: calc(100% + 44px); margin-left: -22px; }
-  .browser-frame { width: 150%; border-radius: 18px 0 0 0; }
-  .browser-body { min-height: 390px; grid-template-columns: 94px 1fr; }
-  .browser-body aside { padding: 20px 10px; }
-  .talent-grid { gap: 9px; padding: 14px; }
-  .talent-cover { height: 76px; }
+  .devnear-visual { width: 100%; margin: 0; }
+  .browser-frame { width: 100%; border-radius: 18px 18px 0 0; }
+  .browser-body { min-height: 390px; grid-template-columns: 76px 1fr; }
+  .browser-body aside { gap: 9px; padding: 17px 7px; font-size: 9px; }
+  .browser-body aside span { padding: 6px; }
+  .talent-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; padding: 10px; }
+  .talent-cover { height: 62px; }
+  .talent-card strong, .talent-card p, .talent-card > span { margin-left: 9px; margin-right: 9px; }
+  .talent-card strong { font-size: 10px; }.talent-card p,.talent-card > span { font-size: 8px; }
   footer { align-items: flex-start; flex-direction: column; justify-content: center; gap: 22px; }.footer-contact { gap: 14px 18px; }
 }
 

@@ -4,7 +4,7 @@ import DondokDemo from "./DondokDemo";
 import styles from "./dondok.module.css";
 
 export const metadata: Metadata = {
-  title: "DONDOK | 전성 포트폴리오",
+  title: "DONDOK",
   description: "참여 횟수에 따라 공동 보증금을 나누는 지분 기반 습관 형성 서비스",
 };
 
@@ -35,6 +35,7 @@ export default function DondokPage() {
             <div><dt>기간</dt><dd>2026.05.22 – 2026.06.26</dd></div>
             <div><dt>팀</dt><dd>5명</dd></div>
             <div><dt>역할</dt><dd>백엔드 · 프론트엔드</dd></div>
+            <div><dt>기술</dt><dd>Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Next.js 16 · TypeScript</dd></div>
           </dl>
         </div>
 
@@ -53,7 +54,7 @@ export default function DondokPage() {
               <strong>총 28일</strong>
               <small>2026.06.26 – 2026.07.24</small>
             </div>
-            <button type="button" tabIndex={-1}>입장 신청 · 보증금 30,000원</button>
+            <span className={styles.phoneAction}>입장 신청 · 보증금 30,000원</span>
           </div>
         </div>
       </section>
@@ -96,8 +97,12 @@ export default function DondokPage() {
             <ul>
               <li>모집 상태·마감 시각·현재 인원 재확인</li>
               <li>버전 충돌과 중복 신청 오류를 서로 다른 응답으로 분리</li>
-              <li>충돌 시 자동 재시도 대신 상태를 다시 확인하도록 안내</li>
+              <li>CAPACITY_FULL·모집 마감·중복 신청 오류를 구분해 안내</li>
             </ul>
+            <div className={styles.evidenceGrid}>
+              <p><strong>확인</strong>서비스 테스트에서 낙관적 락 예외가 CONCURRENT_PAYMENT_ERROR로 변환되는지 확인했습니다.</p>
+              <p><strong>한계</strong>실제 동시 부하 테스트는 수행하지 않아 경쟁 상황의 처리량과 충돌률은 측정하지 못했습니다.</p>
+            </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.lockVisual}`} aria-label="낙관적 락 동시 가입 처리 흐름">
             <div className={styles.flowRequest}><span>가입 요청 A</span><small>같은 크루 · 같은 버전</small></div>
@@ -124,6 +129,10 @@ export default function DondokPage() {
               <li>진행 종료일이 지난 크루를 종료 상태로 전환</li>
               <li>크루별 처리 단위를 나눠 한 건의 실패가 전체 실행을 막지 않도록 구성</li>
             </ul>
+            <div className={styles.evidenceGrid}>
+              <p><strong>확인</strong>활성화·취소·종료 조건을 서비스 테스트로 나누고 경계 날짜의 상태 변화를 확인했습니다.</p>
+              <p><strong>한계</strong>운영 중 실패 건을 자동 재처리하는 별도 큐와 관리 화면은 구현하지 못했습니다.</p>
+            </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.batchVisual}`} aria-label="크루 상태 전환 배치 흐름">
             <div className={styles.batchTime}><span>00:00</span><small>Asia / Seoul</small></div>
@@ -149,6 +158,10 @@ export default function DondokPage() {
               <li>빈 응답·파싱 실패를 명확한 오류로 구분</li>
               <li>기간·요일·보증금·필수값을 서버 규칙으로 재검증</li>
             </ul>
+            <div className={styles.evidenceGrid}>
+              <p><strong>확인</strong>빈 응답·잘못된 빈도·누락된 요일·기간 범위 초과를 테스트로 재현했습니다.</p>
+              <p><strong>한계</strong>외부 모델의 모든 출력 변형을 예측할 수 없어 파싱 실패는 명확한 오류로 반환합니다.</p>
+            </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.aiVisual}`} aria-label="AI 응답 검증 처리 흐름">
             <div className={styles.aiPrompt}><span>사용자 목표</span><strong>매일 운동하는 습관</strong></div>
