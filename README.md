@@ -20,13 +20,23 @@ npm run dev
 
 공유 실행 설정은 `.run/` 폴더에 포함되어 있습니다.
 
-## 예정 구조
+## 페이지 구조
 
 ```text
 /
 ├── /projects/dondok
-├── /projects/devnear
-├── /experience/readle
-├── /ai-usage
-└── /about
+└── /projects/devnear
 ```
+
+홈에서는 두 프로젝트를 빠르게 비교할 수 있고, 각 상세 페이지에서는 샘플 데이터로 핵심 사용자 흐름을 직접 체험할 수 있습니다.
+
+## 배포 전 확인
+
+```bash
+npm run lint
+npm run build
+```
+
+- `public/jeonseong-resume.pdf`: 웹사이트 이력서 다운로드 파일
+- Notion: 상세 원본 자료
+- GitHub: 프로젝트 코드 및 변경 이력

@@ -1,15 +1,21 @@
 const projects = [
   {
+    id: "dondok",
     name: "DONDOK",
+    category: "습관 형성 서비스",
     description:
       "참여 횟수에 따라 공동 보증금을 나누는 지분 기반 습관 형성 서비스",
-    role: "Backend · Frontend",
+    role: "백엔드 · 프론트엔드",
+    href: "/projects/dondok",
   },
   {
+    id: "devnear",
     name: "DEVNEAR",
+    category: "프리랜서 매칭 서비스",
     description:
       "지역과 보유 기술을 기준으로 클라이언트와 프리랜서를 연결하는 매칭 서비스",
-    role: "Repository Maintainer · Backend · Frontend",
+    role: "저장소 관리 · 백엔드 · 프론트엔드",
+    href: "/projects/devnear",
   },
 ];
 
@@ -17,61 +23,136 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="wordmark" href="#top">JEONSEONG</a>
+        <a className="wordmark" href="#top">전성</a>
         <nav aria-label="주요 메뉴">
-          <a href="#projects">PROJECTS</a>
-          <a href="#about">ABOUT</a>
-          <a href="mailto:jeonseong0120@gmail.com">CONTACT</a>
+          <a href="#projects">프로젝트</a>
+          <a href="/jeonseong-resume.pdf" target="_blank">이력서</a>
+          <a href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">Notion</a>
+          <a href="mailto:jeonseong0120@gmail.com">연락처</a>
         </nav>
       </header>
 
       <section className="hero" id="top">
-        <p className="eyebrow">PRODUCT ENGINEER · FULL-STACK DEVELOPER</p>
-        <h1>사용자에게 닿는 흐름까지<br />직접 확인하며 만듭니다.</h1>
-        <p className="hero-copy">
-          API 구현에서 멈추지 않고 실제 화면과 사용자 흐름을 함께 확인합니다.
-          문제의 구조를 이해하고 서비스 안에서 자연스럽게 이어지는 결과를 만드는 개발자 전성입니다.
-        </p>
-        <div className="hero-actions">
-          <a className="primary-link" href="#projects">프로젝트 보기</a>
-          <a className="text-link" href="https://github.com/jeonseong0120-source" target="_blank" rel="noreferrer">GitHub ↗</a>
+        <div className="hero-intro">
+          <p className="hero-kicker">전성 <span>Product Engineer</span></p>
+          <h1>
+            사용자가 쓰는<br />
+            <span>흐름을 만듭니다.</span>
+          </h1>
+          <p className="hero-subtitle">백엔드에서 화면까지.</p>
+          <div className="hero-actions">
+            <a className="primary-link" href="#projects">프로젝트 보기</a>
+            <a className="secondary-link" href="/jeonseong-resume.pdf" target="_blank">이력서 보기</a>
+          </div>
+        </div>
+
+        <div className="hero-proof" aria-label="백엔드 기능이 사용자 화면으로 이어지는 개발 흐름">
+          <div className="proof-topline">
+            <span>FROM REQUEST</span>
+            <span>TO EXPERIENCE</span>
+          </div>
+          <div className="proof-copy">
+            <p>API에서 끝내지 않고</p>
+            <strong>화면에 도착한 결과까지.</strong>
+          </div>
+          <div className="proof-flow" aria-hidden="true">
+            <div className="proof-server">
+              <small>BACKEND</small>
+              <span><i />요청 검증</span>
+              <span><i />비즈니스 로직</span>
+              <span><i />데이터 응답</span>
+            </div>
+            <div className="proof-connector"><span>REST API</span><i>→</i></div>
+            <div className="proof-screen">
+              <div className="proof-browser"><i /><i /><i /></div>
+              <div className="proof-ui">
+                <span />
+                <strong />
+                <p /><p />
+                <button type="button" tabIndex={-1}>완료된 사용자 흐름</button>
+              </div>
+            </div>
+          </div>
+          <div className="proof-bottomline">
+            <span>DONDOK</span><span>DEVNEAR</span><span>2026</span>
+          </div>
         </div>
       </section>
 
-      <section className="section" id="projects">
-        <div className="section-heading">
-          <p>01 / SELECTED PROJECTS</p>
-          <h2>대표 프로젝트</h2>
+      <section className="projects-section" id="projects">
+        <div className="projects-heading">
+          <p>Selected Projects</p>
+          <h2>직접 만든 두 개의 서비스.</h2>
+          <span>서비스를 먼저 이해하고, 그 안에서 해결한 기술 문제를 확인할 수 있습니다.</span>
         </div>
-        <div className="project-list">
-          {projects.map((project, index) => (
-            <article className="project" key={project.name}>
-              <span className="project-number">0{index + 1}</span>
-              <div>
-                <p className="project-role">{project.role}</p>
+
+        <div className="project-showcases">
+          {projects.map((project) => (
+            <article className={`project-showcase ${project.id}`} key={project.name}>
+              <div className="project-copy">
+                <p className="project-category">{project.category}</p>
                 <h3>{project.name}</h3>
-                <p>{project.description}</p>
+                <p className="project-description">{project.description}</p>
+                <p className="project-role">{project.role}</p>
+                <a className="project-link" href={project.href}>프로젝트 살펴보기</a>
               </div>
-              <span aria-hidden="true" className="project-arrow">↗</span>
+
+              {project.id === "dondok" ? (
+                <div className="project-visual dondok-visual" aria-label="돈독 서비스 화면 예시">
+                  <div className="phone-frame">
+                    <div className="phone-island" />
+                    <div className="phone-screen">
+                      <div className="mock-nav"><span>‹</span><strong>코딩 실력 향상</strong><span>●</span></div>
+                      <div className="mock-cover">
+                        <span>공부</span>
+                        <h4>코딩 실력 향상</h4>
+                      </div>
+                      <div className="mock-tabs"><strong>정보</strong><span>멤버</span></div>
+                      <div className="mock-content">
+                        <p>매일 알고리즘 문제를 풀고 인증하며 함께 성장합니다.</p>
+                        <div className="mock-stat"><span>미션 수행 기간</span><strong>총 28일</strong></div>
+                        <button type="button" tabIndex={-1}>입장 신청 · 보증금 30,000원</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="project-visual devnear-visual" aria-label="데브니어 서비스 화면 예시">
+                  <div className="browser-frame">
+                    <div className="browser-bar"><span /><span /><span /></div>
+                    <div className="browser-body">
+                      <aside>
+                        <strong>활동 지역</strong>
+                        <span className="selected-filter">전국</span>
+                        <span>서울</span><span>경기</span><span>인천</span>
+                      </aside>
+                      <div className="talent-grid">
+                        {["서울 강남", "서울 성동", "경기 성남", "인천 연수"].map((region, index) => (
+                          <div className="talent-card" key={region}>
+                            <div className={`talent-cover cover-${index + 1}`} />
+                            <strong>{["백엔드 개발자", "프론트엔드 개발자", "웹 디자이너", "풀스택 개발자"][index]}</strong>
+                            <p>JAVA · REACT</p>
+                            <span>{region}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </article>
           ))}
         </div>
       </section>
 
-      <section className="section about" id="about">
-        <div className="section-heading">
-          <p>02 / ABOUT</p>
-          <h2>전성</h2>
-        </div>
-        <p>
-          프론트엔드와 디자인에도 관심이 많아 기능이 실제 서비스 안에서 어떻게 보이고 작동하는지까지 확인합니다.
-          필요한 순간에는 끝까지 몰입해 결과를 만들어내는 편입니다.
-        </p>
-      </section>
-
       <footer>
-        <a href="mailto:jeonseong0120@gmail.com">jeonseong0120@gmail.com</a>
-        <span>© 2026 JEONSEONG</span>
+        <div className="footer-contact">
+          <a href="mailto:jeonseong0120@gmail.com">jeonseong0120@gmail.com</a>
+          <a href="https://github.com/jeonseong0120-source" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">Notion</a>
+          <a href="/jeonseong-resume.pdf" target="_blank">Resume</a>
+        </div>
+        <span>© 2026 전성</span>
       </footer>
     </main>
   );
