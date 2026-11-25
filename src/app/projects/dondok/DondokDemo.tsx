@@ -13,25 +13,26 @@ const joinCases: Record<JoinScenario, { label: string; members: string; result: 
 };
 
 const aiCases: Record<AiScenario, { label: string; raw: string; result: string; detail: string; tone: "success" | "error" }> = {
-  valid: { label: "정상 JSON", raw: '{"title":"아침 러닝","days":["MON","WED"],"period":28}', result: "초안 생성 가능", detail: "파싱 뒤 기간·요일·보증금·필수값을 서버 규칙으로 다시 확인합니다.", tone: "success" },
-  markdown: { label: "코드 블록 포함", raw: '```json\n{"title":"아침 러닝","days":["MON"],"period":28}\n```', result: "코드 블록 제거 후 파싱", detail: "응답 앞뒤의 Markdown 코드 블록을 제거한 뒤 JSON으로 읽습니다.", tone: "success" },
-  missingDay: { label: "요일 누락", raw: '{"title":"아침 러닝","days":[],"period":28}', result: "유효하지 않은 AI 응답", detail: "파싱에 성공해도 필수 요일 값이 없으면 저장하지 않습니다.", tone: "error" },
-  invalidPeriod: { label: "기간 범위 초과", raw: '{"title":"아침 러닝","days":["MON"],"period":999}', result: "유효하지 않은 AI 응답", detail: "서비스가 허용하는 기간 범위를 넘으면 도메인 검증에서 막습니다.", tone: "error" },
+  valid: { label: "정상 JSON", raw: '{"title":"아침 독서","description":"매일 독서 인증","frequency_type":"DAILY","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":30}', result: "검증 통과", detail: "필수 필드와 DAILY 규칙을 통과한 뒤 수정 가능한 초안으로 전달합니다.", tone: "success" },
+  markdown: { label: "코드 블록 포함", raw: '```json\n{"title":"아침 독서","description":"매일 독서 인증","frequency_type":"DAILY","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":30}\n```', result: "코드 블록 제거 후 검증 통과", detail: "응답 앞뒤의 Markdown 코드 블록을 제거한 뒤 같은 필드 규칙을 검사합니다.", tone: "success" },
+  missingDay: { label: "요일 누락", raw: '{"title":"독서","description":"매일 독서","frequency_type":"SPECIFIC_DAYS","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":30}', result: "유효하지 않은 AI 응답", detail: "SPECIFIC_DAYS는 MONDAY처럼 전체 이름의 요일을 하나 이상 가져야 합니다.", tone: "error" },
+  invalidPeriod: { label: "기간 범위 초과", raw: '{"title":"독서","description":"매일 독서","frequency_type":"DAILY","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":400}', result: "유효하지 않은 AI 응답", detail: "duration_days는 1일 이상 365일 이하여야 합니다.", tone: "error" },
 };
 
 export default function DondokDemo() {
   const [scenario, setScenario] = useState<JoinScenario>("available");
-  const [hasApplied, setHasApplied] = useState(false);
+  const [joinClicks, setJoinClicks] = useState(0);
   const [concurrencyRun, setConcurrencyRun] = useState(false);
   const [aiScenario, setAiScenario] = useState<AiScenario>("valid");
   const selectedJoin = joinCases[scenario];
   const selectedAi = aiCases[aiScenario];
   const joinResult = useMemo(() => {
-    if (scenario === "available" && hasApplied) return { result: "이미 이 크루에 신청한 상태입니다.", code: "ALREADY_PARTICIPATING", tone: "error" as const };
+    if (joinClicks === 0) return null;
+    if (scenario === "available" && joinClicks > 1) return { result: "이미 이 크루에 신청한 상태입니다.", code: "ALREADY_PARTICIPATING", tone: "error" as const };
     return selectedJoin;
-  }, [hasApplied, scenario, selectedJoin]);
+  }, [joinClicks, scenario, selectedJoin]);
 
-  const selectScenario = (next: JoinScenario) => { setScenario(next); setHasApplied(false); };
+  const selectScenario = (next: JoinScenario) => { setScenario(next); setJoinClicks(0); };
 
   return (
     <section className={styles.demoSection} id="demo">
@@ -43,20 +44,20 @@ export default function DondokDemo() {
 
       <div className={styles.ruleDemoGrid}>
         <article className={styles.ruleCard}>
-          <div className={styles.ruleCardHead}><span>01 · 가입 신청</span><a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
+          <div className={styles.ruleCardHead}><span>01 · 가입 신청</span><a href="https://github.com/jeonseong0120-source/dondok-be/blob/main/src/main/java/com/oit/dondok/domain/crew/service/CrewService.java" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
           <h3>상태에 따라<br />다른 결과를 반환합니다.</h3>
           <div className={styles.ruleOptions} role="group" aria-label="가입 신청 상황 선택">
             {(Object.keys(joinCases) as JoinScenario[]).map((key) => <button type="button" key={key} className={scenario === key ? styles.selectedOption : ""} onClick={() => selectScenario(key)}>{joinCases[key].label}</button>)}
           </div>
-          <div className={styles.joinSimulator}><div><span>코딩 실력 향상</span><strong>{selectedJoin.members}</strong></div><button type="button" onClick={() => scenario === "available" && setHasApplied(true)}>가입 신청</button></div>
-          <div className={`${styles.ruleResult} ${joinResult.tone === "error" ? styles.errorResult : styles.successResult}`} aria-live="polite"><code>{joinResult.code}</code><p>{joinResult.result}</p></div>
+          <div className={styles.joinSimulator}><div><span>코딩 실력 향상</span><strong>{selectedJoin.members}</strong></div><button type="button" onClick={() => setJoinClicks((count) => count + 1)}>가입 신청</button></div>
+          <div className={`${styles.ruleResult} ${joinResult?.tone === "error" ? styles.errorResult : joinResult ? styles.successResult : styles.waitingResult}`} aria-live="polite">{joinResult ? <><code>{joinResult.code}</code><p>{joinResult.result}</p></> : <p>상황을 고른 뒤 가입 신청 버튼을 눌러 보세요.</p>}</div>
         </article>
 
         <article className={styles.ruleCard}>
-          <div className={styles.ruleCardHead}><span>02 · 동시 가입</span><a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
+          <div className={styles.ruleCardHead}><span>02 · 동시 가입</span><a href="https://github.com/jeonseong0120-source/dondok-be/blob/main/src/test/java/com/oit/dondok/domain/crew/service/CrewServiceTest.java" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
           <h3>마지막 한 자리는<br />한 요청만 성공합니다.</h3>
           <div className={styles.concurrencySimulator}>
-            <div className={styles.versionPill}>CREW · version {concurrencyRun ? "8" : "7"} · 5 / 6명</div>
+            <div className={styles.versionPill}>CREW · version {concurrencyRun ? "8" : "7"} · {concurrencyRun ? "6 / 6명" : "5 / 6명"}</div>
             <div className={styles.requestRow}><span>A 요청</span><i>동일한 version 7</i><b className={concurrencyRun ? styles.requestSuccess : ""}>{concurrencyRun ? "성공" : "대기"}</b></div>
             <div className={styles.requestRow}><span>B 요청</span><i>동일한 version 7</i><b className={concurrencyRun ? styles.requestFailure : ""}>{concurrencyRun ? "충돌" : "대기"}</b></div>
             {concurrencyRun && <p className={styles.concurrencyNote}><code>CONCURRENT_PAYMENT_ERROR</code> · B는 변경된 version과 일치하지 않아 실패합니다.</p>}
@@ -65,13 +66,13 @@ export default function DondokDemo() {
         </article>
 
         <article className={`${styles.ruleCard} ${styles.aiRuleCard}`}>
-          <div className={styles.ruleCardHead}><span>03 · AI 응답 검증</span><a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
+          <div className={styles.ruleCardHead}><span>03 · AI 응답 검증</span><a href="https://github.com/jeonseong0120-source/dondok-be/blob/main/src/main/java/com/oit/dondok/infra/ai/adapter/OpenAiRecommendationAdapter.java" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
           <h3>형식이 맞아 보여도<br />저장 전 다시 확인합니다.</h3>
           <div className={styles.aiOptions} role="group" aria-label="AI 응답 사례 선택">
             {(Object.keys(aiCases) as AiScenario[]).map((key) => <button type="button" key={key} className={aiScenario === key ? styles.selectedOption : ""} onClick={() => setAiScenario(key)}>{aiCases[key].label}</button>)}
           </div>
           <code className={styles.aiRaw}>{selectedAi.raw}</code>
-          <div className={`${styles.ruleResult} ${selectedAi.tone === "error" ? styles.errorResult : styles.successResult}`} aria-live="polite"><code>{selectedAi.tone === "error" ? "AI_RESPONSE_INVALID" : "VALIDATION_PASSED"}</code><p><strong>{selectedAi.result}</strong>{selectedAi.detail}</p></div>
+          <div className={`${styles.ruleResult} ${selectedAi.tone === "error" ? styles.errorResult : styles.successResult}`} aria-live="polite">{selectedAi.tone === "error" && <code>AI_RESPONSE_INVALID</code>}<p><strong>{selectedAi.result}</strong>{selectedAi.detail}</p></div>
         </article>
       </div>
     </section>
