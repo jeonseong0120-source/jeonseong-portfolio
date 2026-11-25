@@ -135,11 +135,11 @@ export default function DevnearPage() {
             <ul>
               <li>요구 기술과 보유 기술의 교집합 50%</li>
               <li>평점 정규화 30%와 완료 프로젝트 수 20%</li>
-              <li>동점일 때 프로필 식별자로 정렬 순서를 고정</li>
+              <li>소개·기술 입력 시 최대 0.01 보너스, 동점은 평점 → 완료 수 → ID 순으로 정렬</li>
             </ul>
             <div className={styles.evidenceGrid}>
-              <p><strong>확인</strong>같은 조건의 후보가 같은 점수와 순서로 반환되는지 샘플 데이터로 확인했습니다.</p>
-              <p><strong>한계</strong>가중치는 MVP 가설이며 실제 운영 사용자 데이터로 효과를 검증하지 못했습니다.</p>
+              <p><strong>확인</strong>QueryDSL 조회식에 점수·평점·완료 수·ID의 정렬 기준을 명시했습니다.</p>
+              <p><strong>한계</strong>가중치는 MVP 가설이며, 추천 순서와 효과를 검증하는 전용 테스트나 운영 사용자 데이터 검증은 추가하지 못했습니다.</p>
             </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.matchVisual}`} aria-label="규칙 기반 매칭 점수 구성">

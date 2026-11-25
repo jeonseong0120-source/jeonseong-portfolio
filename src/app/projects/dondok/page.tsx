@@ -97,7 +97,7 @@ export default function DondokPage() {
             <ul>
               <li>모집 상태·마감 시각·현재 인원 재확인</li>
               <li>버전 충돌과 중복 신청 오류를 서로 다른 응답으로 분리</li>
-              <li>CAPACITY_FULL·모집 마감·중복 신청 오류를 구분해 안내</li>
+              <li>서버에서 정원 초과·모집 마감·중복 신청을 서로 다른 오류 코드로 반환</li>
             </ul>
             <div className={styles.evidenceGrid}>
               <p><strong>확인</strong>서비스 테스트에서 낙관적 락 예외가 CONCURRENT_PAYMENT_ERROR로 변환되는지 확인했습니다.</p>
@@ -130,8 +130,8 @@ export default function DondokPage() {
               <li>크루별 처리 단위를 나눠 한 건의 실패가 전체 실행을 막지 않도록 구성</li>
             </ul>
             <div className={styles.evidenceGrid}>
-              <p><strong>확인</strong>활성화·취소·종료 조건을 서비스 테스트로 나누고 경계 날짜의 상태 변화를 확인했습니다.</p>
-              <p><strong>한계</strong>운영 중 실패 건을 자동 재처리하는 별도 큐와 관리 화면은 구현하지 못했습니다.</p>
+              <p><strong>확인</strong>정원 충족·미달에 따른 활성화·취소, LOCKED·PENDING 참가자 환급, 한 건이 실패해도 나머지를 계속 처리하는지를 서비스 테스트로 확인했습니다.</p>
+              <p><strong>한계</strong>실제 배포 환경에서 자정 배치를 실행하며 장애를 재현하는 통합 테스트까지는 수행하지 못했습니다.</p>
             </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.batchVisual}`} aria-label="크루 상태 전환 배치 흐름">
@@ -155,7 +155,7 @@ export default function DondokPage() {
             </p>
             <ul>
               <li>Markdown 코드 블록 제거 후 JSON 파싱</li>
-              <li>빈 응답·파싱 실패를 명확한 오류로 구분</li>
+              <li>빈 응답과 파싱 실패를 모두 유효하지 않은 AI 응답 오류로 처리</li>
               <li>기간·요일·보증금·필수값을 서버 규칙으로 재검증</li>
             </ul>
             <div className={styles.evidenceGrid}>

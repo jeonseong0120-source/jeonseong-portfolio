@@ -35,7 +35,7 @@ export default function Home() {
             Java·Spring으로<br />
             <span>서비스의 흐름을 만듭니다.</span>
           </h1>
-          <p className="hero-subtitle">API에서 끝내지 않고, 화면에 도착한 결과까지 확인합니다.</p>
+          <p className="hero-subtitle">요청 검증부터 데이터 조회, 화면 연동까지 흐름을 구현합니다.</p>
           <div className="hero-actions">
             <a className="primary-link" href="#projects">프로젝트 보기</a>
             <a className="secondary-link" href="/jeonseong-resume.pdf" target="_blank">이력서 보기</a>
@@ -83,11 +83,11 @@ export default function Home() {
         <div className="experience-list">
           <article>
             <time>2026.07 – 2026.08</time>
-            <div><strong>그렙 생성형 AI 활용 개발 인턴십</strong><p>4인 팀 팀장 · 백엔드 API, 프론트엔드 연동, 교차 점검과 일정 조율</p></div>
+            <div><strong>(주)그렙 AI Team Internship</strong><p>4인 팀 팀장 · 백엔드 API, 프론트엔드 연동, 교차 점검과 일정 조율</p></div>
           </article>
           <article>
             <time>2025.12 – 2026.06</time>
-            <div><strong>프로그래머스 생성형 AI 백엔드 데브코스</strong><p>Java·Spring 기반 팀 프로젝트 · 서비스 설계, 구현, 배포와 협업</p></div>
+            <div><strong>프로그래머스 데브코스 AI 백엔드 과정</strong><p>Java·Spring 기반 팀 프로젝트 · 서비스 설계, 구현, 배포와 협업</p></div>
           </article>
         </div>
       </section>
