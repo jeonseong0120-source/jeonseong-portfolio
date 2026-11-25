@@ -173,7 +173,7 @@ export default function DevnearPage() {
           </div>
           <div className={`${styles.flowVisual} ${styles.sqlVisual}`} aria-label="JPA 쓰기 지연과 SQL 실행 순서 해결">
             <div className={styles.codeHeader}><span>ProjectService.java</span><span>SQL ORDER</span></div>
-            <code><span>project.getProjectSkills().clear();</span><strong>entityManager.flush();</strong><span>project.updateSkills(newSkills);</span></code>
+            <code><span>project.getProjectSkills().clear();</span><strong>em.flush();</strong><span>mapSkillsToProject(project, skills);</span></code>
             <div className={styles.sqlOrder}><span>DELETE</span><i>→</i><span>INSERT</span><strong>복합키 충돌 방지</strong></div>
           </div>
         </article>

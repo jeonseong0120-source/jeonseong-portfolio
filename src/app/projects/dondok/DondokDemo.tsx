@@ -13,10 +13,10 @@ const joinCases: Record<JoinScenario, { label: string; members: string; result: 
 };
 
 const aiCases: Record<AiScenario, { label: string; raw: string; result: string; detail: string; tone: "success" | "error" }> = {
-  valid: { label: "정상 JSON", raw: '{"title":"아침 독서","description":"매일 독서 인증","frequency_type":"DAILY","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":30}', result: "검증 통과", detail: "필수 필드와 DAILY 규칙을 통과한 뒤 수정 가능한 초안으로 전달합니다.", tone: "success" },
-  markdown: { label: "코드 블록 포함", raw: '```json\n{"title":"아침 독서","description":"매일 독서 인증","frequency_type":"DAILY","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":30}\n```', result: "코드 블록 제거 후 검증 통과", detail: "응답 앞뒤의 Markdown 코드 블록을 제거한 뒤 같은 필드 규칙을 검사합니다.", tone: "success" },
-  missingDay: { label: "요일 누락", raw: '{"title":"독서","description":"매일 독서","frequency_type":"SPECIFIC_DAYS","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":30}', result: "유효하지 않은 AI 응답", detail: "SPECIFIC_DAYS는 MONDAY처럼 전체 이름의 요일을 하나 이상 가져야 합니다.", tone: "error" },
-  invalidPeriod: { label: "기간 범위 초과", raw: '{"title":"독서","description":"매일 독서","frequency_type":"DAILY","mission_schedule_days":[],"daily_settlement_type":"A","deposit_amount":10000,"duration_days":400}', result: "유효하지 않은 AI 응답", detail: "duration_days는 1일 이상 365일 이하여야 합니다.", tone: "error" },
+  valid: { label: "정상 JSON", raw: `{\n  "title": "아침 독서",\n  "description": "매일 독서 인증",\n  "frequency_type": "DAILY",\n  "mission_schedule_days": [],\n  "daily_settlement_type": "A",\n  "deposit_amount": 10000,\n  "duration_days": 30\n}`, result: "검증 통과", detail: "필수 필드와 DAILY 규칙을 통과한 뒤 수정 가능한 초안으로 전달합니다.", tone: "success" },
+  markdown: { label: "코드 블록 포함", raw: `\`\`\`json\n{\n  "title": "아침 독서",\n  "description": "매일 독서 인증",\n  "frequency_type": "DAILY",\n  "mission_schedule_days": [],\n  "daily_settlement_type": "A",\n  "deposit_amount": 10000,\n  "duration_days": 30\n}\n\`\`\``, result: "코드 블록 제거 후 검증 통과", detail: "응답 앞뒤의 Markdown 코드 블록을 제거한 뒤 같은 필드 규칙을 검사합니다.", tone: "success" },
+  missingDay: { label: "요일 누락", raw: `{\n  "title": "독서",\n  "description": "매일 독서",\n  "frequency_type": "SPECIFIC_DAYS",\n  "mission_schedule_days": [],\n  "daily_settlement_type": "A",\n  "deposit_amount": 10000,\n  "duration_days": 30\n}`, result: "유효하지 않은 AI 응답", detail: "SPECIFIC_DAYS는 MONDAY처럼 전체 이름의 요일을 하나 이상 가져야 합니다.", tone: "error" },
+  invalidPeriod: { label: "기간 범위 초과", raw: `{\n  "title": "독서",\n  "description": "매일 독서",\n  "frequency_type": "DAILY",\n  "mission_schedule_days": [],\n  "daily_settlement_type": "A",\n  "deposit_amount": 10000,\n  "duration_days": 400\n}`, result: "유효하지 않은 AI 응답", detail: "duration_days는 1일 이상 365일 이하여야 합니다.", tone: "error" },
 };
 
 export default function DondokDemo() {

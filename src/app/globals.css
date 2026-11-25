@@ -46,8 +46,8 @@ footer { color: var(--muted); }
 .proof-ui > span { display: block; width: 54px; height: 8px; border-radius: 99px; background: #0071e3; }
 .proof-ui > strong { display: block; width: 72%; height: 24px; margin-top: 17px; border-radius: 6px; background: #222226; }
 .proof-ui p { width: 92%; height: 8px; margin: 16px 0 0; border-radius: 99px; background: #d8d8dc; }.proof-ui p + p { width: 67%; margin-top: 8px; }
-.proof-ui-result { width: 100%; min-height: 46px; display: flex; align-items: center; justify-content: center; margin-top: 42px; border-radius: 12px; background: #1d1d1f; color: #fff; font-size: 11px; font-weight: 750; }
-.experience-section { display: grid; grid-template-columns: minmax(280px,.72fr) minmax(0,1.28fr); gap: clamp(48px,8vw,110px); padding: 132px 0; border-bottom: 1px solid var(--line); }
+.proof-ui-result { width: fit-content; min-width: 180px; min-height: 42px; display: flex; align-items: center; justify-content: center; align-self: flex-start; margin-top: 34px; padding: 0 18px; border-radius: 999px; background: #1d1d1f; color: #fff; font-size: 11px; font-weight: 750; white-space: nowrap; }
+.experience-section { display: grid; grid-template-columns: minmax(280px,.72fr) minmax(0,1.28fr); gap: clamp(48px,8vw,110px); padding: 96px 0; border-bottom: 1px solid var(--line); }
 .experience-heading > p { margin: 0 0 16px; color: var(--blue); font-size: 15px; font-weight: 750; }
 .experience-heading h2 { margin: 0; font-size: clamp(38px,4.5vw,58px); line-height: 1.08; letter-spacing: -.055em; }
 .experience-list { border-top: 1px solid var(--line); }
@@ -55,7 +55,7 @@ footer { color: var(--muted); }
 .experience-list time { color: var(--muted); font-size: 13px; font-weight: 700; }
 .experience-list strong { display: block; font-size: 18px; }
 .experience-list p { margin: 9px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
-.projects-section { padding: 144px 0; border-bottom: 1px solid var(--line); }
+.projects-section { padding: 104px 0; border-bottom: 1px solid var(--line); }
 .projects-heading { max-width: 780px; margin: 0 auto 72px; text-align: center; }
 .projects-heading > p { margin: 0 0 15px; color: var(--blue); font-size: 16px; font-weight: 700; }
 .projects-heading h2 { margin: 0; font-size: clamp(44px, 5.8vw, 74px); line-height: 1.05; letter-spacing: -.065em; }
