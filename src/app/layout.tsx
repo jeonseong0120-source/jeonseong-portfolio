@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const deploymentHost =
-  process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
-
 export const metadata: Metadata = {
-  metadataBase: deploymentHost
-    ? new URL(`https://${deploymentHost}`)
-    : new URL("http://localhost:3000"),
+  // A stable public URL is intentional here. Vercel's per-deployment hosts and
+  // the legacy tmp.now alias must not leak into social previews.
+  metadataBase: new URL("https://jeonseong-portfolio.vercel.app"),
   title: {
     default: "전성 | 백엔드 개발자 포트폴리오",
     template: "%s | 전성 포트폴리오",

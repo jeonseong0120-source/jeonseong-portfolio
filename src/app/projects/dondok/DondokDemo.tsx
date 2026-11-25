@@ -1,134 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import styles from "./dondok.module.css";
 
-const steps = [
-  {
-    label: "크루 탐색",
-    title: "같은 목표를 가진 크루를 찾습니다.",
-    description: "카테고리, 모집 상태와 보증금을 확인하고 참여할 크루를 고릅니다.",
-  },
-  {
-    label: "가입 신청",
-    title: "보증금을 예약하고 승인을 기다립니다.",
-    description: "신청 시 보증금이 예약되며, 방장이 승인하면 참여 상태와 보증금이 확정됩니다.",
-  },
-  {
-    label: "미션 인증",
-    title: "정해진 일정에 맞춰 습관을 인증합니다.",
-    description: "미션 수행 내역을 사진으로 남기고 크루 안에서 참여 기록을 쌓습니다.",
-  },
-  {
-    label: "참여 정산",
-    title: "참여 횟수만큼 공동 보증금을 나눕니다.",
-    description: "크루가 종료되면 각 참여자의 미션 수행 횟수를 기준으로 환급 금액을 계산합니다.",
-  },
-];
+type JoinScenario = "available" | "full" | "closed";
+type AiScenario = "valid" | "markdown" | "missingDay" | "invalidPeriod";
 
-function DemoScreen({ step }: { step: number }) {
-  if (step === 0) {
-    return (
-      <div className={styles.demoList}>
-        <div className={styles.demoAppBar}><strong>크루 찾기</strong><span>⌕</span></div>
-        <div className={styles.demoFilters}><strong>전체</strong><span>모집 중</span><span>공부</span><span>운동</span></div>
-        {[
-          ["갓생 6시 기상", "🌅 기상", "8 / 10명", "20,000원"],
-          ["코딩 실력 향상", "📝 공부", "4 / 6명", "30,000원"],
-          ["매일 한 챕터", "📚 독서", "6 / 8명", "10,000원"],
-        ].map(([title, category, members, deposit]) => (
-          <div className={styles.demoCrewCard} key={title}>
-            <div><span>{category}</span><strong>{title}</strong><small>{members}</small></div>
-            <b>{deposit}</b>
-          </div>
-        ))}
-      </div>
-    );
-  }
+const joinCases: Record<JoinScenario, { label: string; members: string; result: string; code: string; tone: "success" | "error" }> = {
+  available: { label: "모집 중 · 한 자리 남음", members: "5 / 6명", result: "신청이 접수되었습니다. 방장 승인 대기 상태예요.", code: "PENDING", tone: "success" },
+  full: { label: "정원 마감", members: "6 / 6명", result: "정원이 모두 찼습니다.", code: "CAPACITY_FULL", tone: "error" },
+  closed: { label: "모집 종료", members: "5 / 6명", result: "모집 기간이 종료된 크루입니다.", code: "CREW_NOT_RECRUITING", tone: "error" },
+};
 
-  if (step === 1) {
-    return (
-      <div className={styles.demoJoin}>
-        <div className={styles.demoPurpleCover}><span>📝 공부</span><h3>코딩 실력 향상</h3></div>
-        <div className={styles.demoJoinBody}>
-          <span className={styles.recruiting}>모집 중 · 4 / 6명</span>
-          <p>매일 알고리즘 문제를 풀고 인증하며 함께 성장합니다.</p>
-          <div><span>보증금</span><strong>30,000원</strong></div>
-          <div className={styles.pendingBox}><strong>✓ 신청 완료</strong><span>방장 승인 대기 중</span></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (step === 2) {
-    return (
-      <div className={styles.demoCertify}>
-        <div className={styles.demoAppBar}><strong>오늘의 미션</strong><span>6월 30일</span></div>
-        <div className={styles.certifyProgress}>
-          <span>코딩 실력 향상</span><strong>5일째 참여 중</strong><div><i /></div><small>5 / 28회 인증</small>
-        </div>
-        <div className={styles.uploadArea}><span>＋</span><strong>오늘의 인증 사진</strong><small>학습한 화면이나 노트를 올려주세요</small></div>
-        <span className={styles.demoAction}>미션 인증하기</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className={styles.demoSettlement}>
-      <div className={styles.demoAppBar}><strong>크루 정산</strong><span>완료</span></div>
-      <div className={styles.settlementHero}><span>나의 참여</span><strong>24 / 28회</strong><small>상위 참여자</small></div>
-      <div className={styles.shareRows}>
-        <div><span>전체 참여 횟수</span><strong>102회</strong></div>
-        <div><span>나의 지분</span><strong>23.5%</strong></div>
-        <div><span>정산 기준</span><strong>참여 횟수</strong></div>
-      </div>
-      <div className={styles.refundBox}><span>참여 횟수에 따라</span><strong>공동 보증금 분배 완료</strong></div>
-    </div>
-  );
-}
+const aiCases: Record<AiScenario, { label: string; raw: string; result: string; detail: string; tone: "success" | "error" }> = {
+  valid: { label: "정상 JSON", raw: '{"title":"아침 러닝","days":["MON","WED"],"period":28}', result: "초안 생성 가능", detail: "파싱 뒤 기간·요일·보증금·필수값을 서버 규칙으로 다시 확인합니다.", tone: "success" },
+  markdown: { label: "코드 블록 포함", raw: '```json\n{"title":"아침 러닝","days":["MON"],"period":28}\n```', result: "코드 블록 제거 후 파싱", detail: "응답 앞뒤의 Markdown 코드 블록을 제거한 뒤 JSON으로 읽습니다.", tone: "success" },
+  missingDay: { label: "요일 누락", raw: '{"title":"아침 러닝","days":[],"period":28}', result: "유효하지 않은 AI 응답", detail: "파싱에 성공해도 필수 요일 값이 없으면 저장하지 않습니다.", tone: "error" },
+  invalidPeriod: { label: "기간 범위 초과", raw: '{"title":"아침 러닝","days":["MON"],"period":999}', result: "유효하지 않은 AI 응답", detail: "서비스가 허용하는 기간 범위를 넘으면 도메인 검증에서 막습니다.", tone: "error" },
+};
 
 export default function DondokDemo() {
-  const [step, setStep] = useState(0);
+  const [scenario, setScenario] = useState<JoinScenario>("available");
+  const [hasApplied, setHasApplied] = useState(false);
+  const [concurrencyRun, setConcurrencyRun] = useState(false);
+  const [aiScenario, setAiScenario] = useState<AiScenario>("valid");
+  const selectedJoin = joinCases[scenario];
+  const selectedAi = aiCases[aiScenario];
+  const joinResult = useMemo(() => {
+    if (scenario === "available" && hasApplied) return { result: "이미 이 크루에 신청한 상태입니다.", code: "ALREADY_PARTICIPATING", tone: "error" as const };
+    return selectedJoin;
+  }, [hasApplied, scenario, selectedJoin]);
+
+  const selectScenario = (next: JoinScenario) => { setScenario(next); setHasApplied(false); };
 
   return (
     <section className={styles.demoSection} id="demo">
       <div className={styles.demoHeading}>
-        <p>30초 서비스 체험</p>
-        <h2>돈독은 이렇게 사용합니다.</h2>
-        <span>실제 서비스 흐름을 단순화한 포트폴리오용 데모입니다. 화면에는 샘플 데이터를 사용했습니다.</span>
+        <p>규칙 체험</p>
+        <h2>화면이 아니라,<br />처리 기준을 보여줍니다.</h2>
+        <span>실제 서비스 규칙을 브라우저에서 재현한 포트폴리오용 체험입니다. 실제 서버나 결제 요청은 발생하지 않습니다.</span>
       </div>
 
-      <div className={styles.demoStage}>
-        <div className={styles.stepCopy}>
-          <div className={styles.stepTabs} role="tablist" aria-label="돈독 사용자 흐름">
-            {steps.map((item, index) => (
-              <button
-                type="button"
-                role="tab"
-                aria-selected={step === index}
-                className={step === index ? styles.activeStep : ""}
-                onClick={() => setStep(index)}
-                key={item.label}
-              >
-                <span>{index + 1}</span>{item.label}
-              </button>
-            ))}
+      <div className={styles.ruleDemoGrid}>
+        <article className={styles.ruleCard}>
+          <div className={styles.ruleCardHead}><span>01 · 가입 신청</span><a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
+          <h3>상태에 따라<br />다른 결과를 반환합니다.</h3>
+          <div className={styles.ruleOptions} role="group" aria-label="가입 신청 상황 선택">
+            {(Object.keys(joinCases) as JoinScenario[]).map((key) => <button type="button" key={key} className={scenario === key ? styles.selectedOption : ""} onClick={() => selectScenario(key)}>{joinCases[key].label}</button>)}
           </div>
-          <div className={styles.stepDescription} aria-live="polite">
-            <p>{steps[step].label}</p>
-            <h3>{steps[step].title}</h3>
-            <span>{steps[step].description}</span>
-          </div>
-          <div className={styles.stepControls}>
-            <button type="button" onClick={() => setStep((current) => Math.max(0, current - 1))} disabled={step === 0}>이전</button>
-            <button type="button" onClick={() => setStep((current) => Math.min(steps.length - 1, current + 1))} disabled={step === steps.length - 1}>다음</button>
-          </div>
-        </div>
+          <div className={styles.joinSimulator}><div><span>코딩 실력 향상</span><strong>{selectedJoin.members}</strong></div><button type="button" onClick={() => scenario === "available" && setHasApplied(true)}>가입 신청</button></div>
+          <div className={`${styles.ruleResult} ${joinResult.tone === "error" ? styles.errorResult : styles.successResult}`} aria-live="polite"><code>{joinResult.code}</code><p>{joinResult.result}</p></div>
+        </article>
 
-        <div className={styles.demoDevice}>
-          <div className={styles.demoIsland} />
-          <DemoScreen step={step} />
-        </div>
+        <article className={styles.ruleCard}>
+          <div className={styles.ruleCardHead}><span>02 · 동시 가입</span><a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
+          <h3>마지막 한 자리는<br />한 요청만 성공합니다.</h3>
+          <div className={styles.concurrencySimulator}>
+            <div className={styles.versionPill}>CREW · version {concurrencyRun ? "8" : "7"} · 5 / 6명</div>
+            <div className={styles.requestRow}><span>A 요청</span><i>동일한 version 7</i><b className={concurrencyRun ? styles.requestSuccess : ""}>{concurrencyRun ? "성공" : "대기"}</b></div>
+            <div className={styles.requestRow}><span>B 요청</span><i>동일한 version 7</i><b className={concurrencyRun ? styles.requestFailure : ""}>{concurrencyRun ? "충돌" : "대기"}</b></div>
+            {concurrencyRun && <p className={styles.concurrencyNote}><code>CONCURRENT_PAYMENT_ERROR</code> · B는 변경된 version과 일치하지 않아 실패합니다.</p>}
+          </div>
+          <button type="button" className={styles.runButton} onClick={() => setConcurrencyRun((value) => !value)}>{concurrencyRun ? "다시 보기" : "동시에 가입 요청하기"}</button>
+        </article>
+
+        <article className={`${styles.ruleCard} ${styles.aiRuleCard}`}>
+          <div className={styles.ruleCardHead}><span>03 · AI 응답 검증</span><a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
+          <h3>형식이 맞아 보여도<br />저장 전 다시 확인합니다.</h3>
+          <div className={styles.aiOptions} role="group" aria-label="AI 응답 사례 선택">
+            {(Object.keys(aiCases) as AiScenario[]).map((key) => <button type="button" key={key} className={aiScenario === key ? styles.selectedOption : ""} onClick={() => setAiScenario(key)}>{aiCases[key].label}</button>)}
+          </div>
+          <code className={styles.aiRaw}>{selectedAi.raw}</code>
+          <div className={`${styles.ruleResult} ${selectedAi.tone === "error" ? styles.errorResult : styles.successResult}`} aria-live="polite"><code>{selectedAi.tone === "error" ? "AI_RESPONSE_INVALID" : "VALIDATION_PASSED"}</code><p><strong>{selectedAi.result}</strong>{selectedAi.detail}</p></div>
+        </article>
       </div>
     </section>
   );

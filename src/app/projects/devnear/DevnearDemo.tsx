@@ -1,102 +1,77 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import styles from "./devnear.module.css";
 
-const steps = [
-  { label: "역할 선택", title: "서비스에서 맡을 역할을 선택합니다.", description: "클라이언트와 프리랜서는 서로 다른 정보로 프로필을 만들고 각 역할에 맞는 기능을 사용합니다." },
-  { label: "조건 입력", title: "프로젝트에 필요한 조건을 입력합니다.", description: "활동 지역, 필요한 기술과 프로젝트 조건을 입력해 찾고 싶은 사람의 기준을 정합니다." },
-  { label: "후보 추천", title: "조건에 맞는 후보와 근거를 확인합니다.", description: "지역으로 후보를 좁히고 기술, 평점, 수행 경험을 점수로 바꿔 추천 순서를 보여줍니다." },
-  { label: "제안 연결", title: "프로필을 확인하고 제안을 보냅니다.", description: "추천 결과의 상세 경력과 보유 기술을 확인한 뒤 프로젝트 참여를 제안합니다." },
+const skillOptions = ["Java", "Spring", "MySQL", "Redis", "React"];
+
+type Candidate = { id: number; name: string; skills: string[]; rating: number; completed: number; introduction: boolean };
+
+const baseCandidates: Candidate[] = [
+  { id: 18, name: "윤서진", skills: ["Java", "Spring", "MySQL", "Redis"], rating: 4.8, completed: 12, introduction: true },
+  { id: 22, name: "김도현", skills: ["Java", "Spring", "React"], rating: 4.9, completed: 18, introduction: true },
+  { id: 31, name: "이하늘", skills: ["Spring", "MySQL", "Redis"], rating: 4.6, completed: 8, introduction: false },
 ];
 
-function DemoScreen({ step }: { step: number }) {
-  if (step === 0) return (
-    <div className={styles.roleScreen}>
-      <div className={styles.demoNav}><strong>DEVNEAR</strong><span>시작하기</span></div>
-      <div className={styles.screenTitle}><small>STEP 01</small><h3>어떤 역할로<br />시작하시나요?</h3><p>나중에 역할을 추가할 수 있습니다.</p></div>
-      <div className={styles.roleCards}>
-        <div><span>프로젝트를 맡기고 싶어요</span><strong>클라이언트</strong><small>조건에 맞는 전문가 찾기</small></div>
-        <div className={styles.selectedRole}><span>프로젝트에 참여하고 싶어요</span><strong>프리랜서</strong><small>나에게 맞는 프로젝트 찾기</small></div>
-      </div>
-    </div>
-  );
-
-  if (step === 1) return (
-    <div className={styles.conditionScreen}>
-      <div className={styles.demoNav}><strong>프로젝트 등록</strong><span>2 / 3</span></div>
-      <div className={styles.conditionBody}>
-        <small>필요한 사람의 조건</small><h3>백엔드 개발자</h3>
-        <label>활동 지역<div><strong>서울</strong><span>경기</span><span>원격</span></div></label>
-        <label>필요 기술<div><strong>Java</strong><strong>Spring</strong><span>MySQL</span><span>Redis</span></div></label>
-        <label>프로젝트 기간<div className={styles.inputMock}>3개월</div></label>
-        <span className={styles.demoAction}>조건에 맞는 프리랜서 보기</span>
-      </div>
-    </div>
-  );
-
-  if (step === 2) return (
-    <div className={styles.recommendScreen}>
-      <div className={styles.demoNav}><strong>추천 결과</strong><span>12명</span></div>
-      <div className={styles.recommendBody}>
-        <small>입력한 조건을 기준으로 정렬했습니다.</small>
-        {[
-          ["윤서진", "백엔드 개발자", "94", "Java · Spring · MySQL"],
-          ["김도현", "풀스택 개발자", "89", "Java · React · AWS"],
-          ["이하늘", "서버 개발자", "84", "Spring · MySQL · Redis"],
-        ].map(([name, role, score, skills], index) => (
-          <div className={styles.recommendCard} key={name}>
-            <div className={`${styles.avatar} ${styles[`avatar${index + 1}`]}`}>{name.slice(0, 1)}</div>
-            <div><span>{role}</span><strong>{name}</strong><small>{skills}</small></div>
-            <b>{score}<em>%</em></b>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  return (
-    <div className={styles.proposalScreen}>
-      <div className={styles.profileHero}><span className={styles.largeAvatar}>윤</span><small>백엔드 개발자</small><h3>윤서진</h3><p>복잡한 요구사항을 안정적인 API로 구현합니다.</p></div>
-      <div className={styles.profileBody}>
-        <div><span>추천 점수</span><strong>94%</strong></div>
-        <div><span>보유 기술</span><p><b>Java</b><b>Spring</b><b>MySQL</b></p></div>
-        <div><span>프로젝트</span><strong>완료 12건 · 평점 4.8</strong></div>
-        <span className={styles.demoAction}>프로젝트 제안 보내기</span>
-      </div>
-    </div>
-  );
+function score(candidate: Candidate, required: string[]) {
+  const matched = required.filter((skill) => candidate.skills.includes(skill)).length;
+  const skillScore = required.length ? (matched / required.length) * 50 : 0;
+  const ratingScore = (candidate.rating / 5) * 30;
+  const experienceScore = Math.min(candidate.completed / 10, 1) * 20;
+  const bonus = (candidate.introduction ? 0.005 : 0) + (candidate.skills.length ? 0.005 : 0);
+  return skillScore + ratingScore + experienceScore + bonus;
 }
 
 export default function DevnearDemo() {
-  const [step, setStep] = useState(0);
+  const [required, setRequired] = useState(["Java", "Spring", "MySQL"]);
+  const [rating, setRating] = useState(4.8);
+  const [completed, setCompleted] = useState(12);
+  const [introduction, setIntroduction] = useState(true);
+
+  const candidates = useMemo(() => {
+    const editable: Candidate = { id: 10, name: "내가 바꾼 후보", skills: required, rating, completed, introduction };
+    return [...baseCandidates, editable]
+      .map((candidate) => ({ ...candidate, score: score(candidate, required) }))
+      .sort((a, b) => b.score - a.score || b.rating - a.rating || b.completed - a.completed || b.id - a.id);
+  }, [completed, introduction, rating, required]);
+
+  const toggleSkill = (skill: string) => setRequired((current) => current.includes(skill) ? current.filter((value) => value !== skill) : [...current, skill]);
+  const editedScore = candidates.find((candidate) => candidate.id === 10)?.score ?? 0;
+
   return (
     <section className={styles.demoSection} id="demo">
       <div className={styles.demoHeading}>
-        <p>30초 서비스 체험</p>
-        <h2>데브니어는 이렇게 연결합니다.</h2>
-        <span>실제 서비스 흐름을 단순화한 포트폴리오용 데모입니다. 화면에는 샘플 데이터를 사용했습니다.</span>
+        <p>규칙 체험</p>
+        <h2>추천 점수는<br />어떻게 달라질까요?</h2>
+        <span>실제 매칭 조회식의 가중치와 정렬 기준을 브라우저에서 재현한 포트폴리오용 체험입니다. 실제 추천 API를 호출하지 않습니다.</span>
       </div>
-      <div className={styles.demoStage}>
-        <div className={styles.stepCopy}>
-          <div className={styles.stepTabs} role="tablist" aria-label="데브니어 사용자 흐름">
-            {steps.map((item, index) => (
-              <button type="button" role="tab" aria-selected={step === index} className={step === index ? styles.activeStep : ""} onClick={() => setStep(index)} key={item.label}>
-                <span>{index + 1}</span>{item.label}
-              </button>
-            ))}
-          </div>
-          <div className={styles.stepDescription} aria-live="polite">
-            <p>{steps[step].label}</p><h3>{steps[step].title}</h3><span>{steps[step].description}</span>
-          </div>
-          <div className={styles.stepControls}>
-            <button type="button" onClick={() => setStep((current) => Math.max(0, current - 1))} disabled={step === 0}>이전</button>
-            <button type="button" onClick={() => setStep((current) => Math.min(steps.length - 1, current + 1))} disabled={step === steps.length - 1}>다음</button>
-          </div>
+
+      <div className={styles.matchLab}>
+        <div className={styles.matchControls}>
+          <div className={styles.ruleCardHead}><span>매칭 점수 계산기</span><a href="https://github.com/jeonseong0120-source/devnear" target="_blank" rel="noreferrer">원본 코드 보기</a></div>
+          <h3>조건을 바꾸면<br />순서도 바뀝니다.</h3>
+          <fieldset className={styles.controlGroup}>
+            <legend>요구 기술</legend>
+            <div>{skillOptions.map((skill) => <button type="button" className={required.includes(skill) ? styles.selectedOption : ""} onClick={() => toggleSkill(skill)} key={skill}>{skill}</button>)}</div>
+          </fieldset>
+          <label className={styles.rangeControl}>평점 <strong>{rating.toFixed(1)} / 5.0</strong><input type="range" min="3" max="5" step="0.1" value={rating} onChange={(event) => setRating(Number(event.target.value))} /></label>
+          <label className={styles.rangeControl}>완료 프로젝트 <strong>{completed}건</strong><input type="range" min="0" max="20" step="1" value={completed} onChange={(event) => setCompleted(Number(event.target.value))} /></label>
+          <label className={styles.switchControl}><input type="checkbox" checked={introduction} onChange={(event) => setIntroduction(event.target.checked)} /><span>소개 입력</span><b>+0.005</b></label>
+          <div className={styles.ruleFormula}><span>기술 일치 50% · 평점 30% · 수행 경험 20%</span><strong>프로필 보너스 최대 +0.01</strong></div>
         </div>
-        <div className={styles.demoBrowser}>
-          <div className={styles.demoBrowserTop}><div><span /><span /><span /></div><p>devnear.app</p></div>
-          <DemoScreen step={step} />
+
+        <div className={styles.matchResults}>
+          <div className={styles.resultsHead}><span>추천 결과</span><strong>점수 → 평점 → 완료 수 → ID</strong></div>
+          <ol>
+            {candidates.map((candidate, index) => (
+              <li className={candidate.id === 10 ? styles.editableCandidate : ""} key={candidate.id}>
+                <span className={styles.rank}>{index + 1}</span>
+                <div><strong>{candidate.name}</strong><small>{candidate.skills.join(" · ") || "기술 없음"}</small><em>평점 {candidate.rating.toFixed(1)} · 완료 {candidate.completed}건 · ID {candidate.id}</em></div>
+                <b>{candidate.score.toFixed(2)}</b>
+              </li>
+            ))}
+          </ol>
+          <p className={styles.matchNote}>현재 편집 중인 후보의 점수는 <strong>{editedScore.toFixed(2)}</strong>점입니다. 소개·기술 입력 보너스는 최대 0.01만 더해집니다.</p>
         </div>
       </div>
     </section>
