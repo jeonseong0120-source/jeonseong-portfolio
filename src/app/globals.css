@@ -55,6 +55,7 @@ footer { color: var(--muted); }
 .experience-list time { color: var(--muted); font-size: 13px; font-weight: 700; }
 .experience-list strong { display: block; font-size: 18px; }
 .experience-list p { margin: 9px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.experience-note { display: inline-block; margin-top: 10px; color: var(--blue); font-size: 12px; font-weight: 700; }
 .projects-section { padding: 104px 0; border-bottom: 1px solid var(--line); }
 .projects-heading { max-width: 780px; margin: 0 auto 72px; text-align: center; }
 .projects-heading > p { margin: 0 0 15px; color: var(--blue); font-size: 16px; font-weight: 700; }

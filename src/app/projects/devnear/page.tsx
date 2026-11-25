@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import DevnearDemo from "./DevnearDemo";
 import styles from "./devnear.module.css";
@@ -56,14 +57,14 @@ export default function DevnearPage() {
               <div className={styles.resultHeader}><div><small>추천 인재</small><strong>조건에 맞는 프리랜서 12명</strong></div><span>추천순⌄</span></div>
               <div className={styles.profileGrid}>
                 {[
-                  ["윤서진", "백엔드 개발자", "94", "서울 강남"],
-                  ["김도현", "풀스택 개발자", "89", "경기 성남"],
-                  ["박지우", "프론트엔드 개발자", "86", "서울 성동"],
-                  ["이하늘", "웹 개발자", "82", "인천 연수"],
+                  ["윤서진", "백엔드 개발자", "0.94", "서울 강남"],
+                  ["김도현", "풀스택 개발자", "0.89", "경기 성남"],
+                  ["박지우", "프론트엔드 개발자", "0.86", "서울 성동"],
+                  ["이하늘", "웹 개발자", "0.82", "인천 연수"],
                 ].map(([name, role, score, region], index) => (
                   <div className={styles.profileCard} key={name}>
                     <div className={`${styles.profileImage} ${styles[`profile${index + 1}`]}`}><span>{name.slice(0, 1)}</span></div>
-                    <small>{score}% MATCH</small>
+                    <small>{score} SCORE · 예시</small>
                     <strong>{name}</strong><p>{role}</p><span>{region}</span>
                   </div>
                 ))}
@@ -90,6 +91,10 @@ export default function DevnearPage() {
           <div><span>03</span><strong>매칭·조회</strong><p>지역 선필터링, 규칙 기반 점수와 DB 페이지네이션</p></div>
           <div><span>04</span><strong>화면 연동</strong><p>로그인, 회원가입, 프리랜서 탐색·상세 화면 API 연결</p></div>
         </div>
+        <figure className={styles.architectureFigure}>
+          <Image src="/portfolio-assets/devnear-architecture.png" width={1400} height={875} alt="DevNear의 Next.js 프론트엔드, JWT 인증, 요청 범위 사용자 조회, 규칙 기반 매칭 엔진, MySQL과 Redis 구조" />
+          <figcaption>서비스 전체 아키텍처</figcaption>
+        </figure>
       </section>
 
       <section className={styles.contributionSection}>
@@ -107,6 +112,7 @@ export default function DevnearPage() {
               인증 정보를 구성했습니다. 실제 사용자 엔티티가 필요한 서비스에서만 한 번 조회해
               같은 요청 안에서 재사용했습니다.
             </p>
+            <p className={styles.decision}><strong>판단</strong>화면 분기만으로는 API별 접근 기준을 일관되게 보장하기 어려워 역할을 API 접근 기준으로 사용했습니다.</p>
             <ul>
               <li>CLIENT·FREELANCER·BOTH 역할을 API 접근 기준으로 사용</li>
               <li>JWT Claim으로 인증 필터 단계의 사용자 DB 조회 제거</li>
@@ -132,6 +138,7 @@ export default function DevnearPage() {
               외부 AI 판단에만 의존하지 않고 같은 조건에는 같은 결과가 나오도록 규칙을 정했습니다.
               지역으로 후보를 먼저 좁힌 뒤 기술 일치도, 평점, 수행 경험을 점수로 바꿔 정렬했습니다.
             </p>
+            <p className={styles.decision}><strong>판단</strong>프로젝트 수행 가능성에 직접 영향을 주는 기술 일치도를 가장 크게, 평점·수행 경험은 보조 지표로 사용했습니다.</p>
             <ul>
               <li>요구 기술과 보유 기술의 교집합 50%</li>
               <li>평점 정규화 30%와 완료 프로젝트 수 20%</li>
@@ -154,7 +161,7 @@ export default function DevnearPage() {
 
         <article className={styles.contribution}>
           <div className={styles.contributionCopy}>
-            <span>03 · JPA와 실제 SQL</span>
+            <span>03 · 트러블슈팅 · JPA와 실제 SQL</span>
             <h3>코드 순서와<br />SQL 순서를 구분했습니다.</h3>
             <p>
               기술 목록을 바꿀 때 기존 항목을 지우고 같은 기술을 다시 추가하면 복합키 충돌이 발생했습니다.
@@ -180,7 +187,7 @@ export default function DevnearPage() {
 
         <article className={`${styles.contribution} ${styles.reverseContribution}`}>
           <div className={styles.contributionCopy}>
-            <span>04 · 저장 후 프로필 404</span>
+            <span>04 · 트러블슈팅 · 저장 후 프로필 404</span>
             <h3>저장된 프로필이<br />바로 사라져 보이지 않도록.</h3>
             <p>
               온보딩에서 프로필을 저장했지만 User 객체에는 새 프로필이 연결되지 않아,
@@ -214,6 +221,7 @@ export default function DevnearPage() {
         </span>
         <div className={styles.outroLinks}>
           <a href="https://github.com/jeonseong0120-source/devnear" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">설계 판단·트러블슈팅 전문 보기 →</a>
           <Link href="/projects/dondok">이전 프로젝트 · DONDOK</Link>
           <Link href="/">홈으로</Link>
         </div>

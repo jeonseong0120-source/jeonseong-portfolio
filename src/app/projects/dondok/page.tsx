@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import DondokDemo from "./DondokDemo";
 import styles from "./dondok.module.css";
@@ -77,6 +78,10 @@ export default function DondokPage() {
           <div><span>03</span><strong>동시 가입</strong><p>정원 초과와 중복 신청을 구분하는 정합성 제어</p></div>
           <div><span>04</span><strong>제품 기반</strong><p>Next.js 공통 UI, 인증 복구, PWA와 Vercel 배포 환경</p></div>
         </div>
+        <figure className={styles.architectureFigure}>
+          <Image src="/portfolio-assets/dondok-architecture.png" width={1300} height={945} alt="Dondok의 사용자, Next.js 프론트엔드, Spring Boot 백엔드, MySQL과 외부 서비스 연동 구조" />
+          <figcaption>서비스 전체 아키텍처</figcaption>
+        </figure>
       </section>
 
       <section className={styles.contributionSection}>
@@ -94,6 +99,7 @@ export default function DondokPage() {
               판단할 수 있습니다. 크루에 버전 값을 두고 낙관적 락을 적용해 먼저 반영된 요청만
               성공하도록 했습니다.
             </p>
+            <p className={styles.decision}><strong>판단</strong>DB 잠금을 오래 점유하기보다 변경 충돌을 감지해 실패 요청을 명확히 반환하는 낙관적 락을 선택했습니다.</p>
             <ul>
               <li>모집 상태·마감 시각·현재 인원 재확인</li>
               <li>버전 충돌과 중복 신청 오류를 서로 다른 응답으로 분리</li>
@@ -124,6 +130,7 @@ export default function DondokPage() {
               기능마다 현재 날짜를 다시 계산하면 같은 크루를 서로 다른 상태로 판단할 수 있습니다.
               KST 자정을 기준으로 모집 결과와 미션 종료 상태를 순서대로 확정했습니다.
             </p>
+            <p className={styles.decision}><strong>판단</strong>프롬프트 형식 지시만으로 도메인 규칙을 보장할 수 없어 AI 응답을 검증 후 수정 가능한 초안으로 취급했습니다.</p>
             <ul>
               <li>모집 완료 시 최소 인원 충족 여부에 따라 활성화 또는 취소</li>
               <li>진행 종료일이 지난 크루를 종료 상태로 전환</li>
@@ -184,6 +191,7 @@ export default function DondokPage() {
         <div className={styles.outroLinks}>
           <a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">Backend GitHub</a>
           <a href="https://github.com/jeonseong0120-source/dondok-fe" target="_blank" rel="noreferrer">Frontend GitHub</a>
+          <a href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">설계 판단·트러블슈팅 전문 보기 →</a>
           <Link href="/projects/devnear">다음 프로젝트 · DEVNEAR</Link>
         </div>
       </section>

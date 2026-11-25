@@ -8,7 +8,7 @@ type AiScenario = "valid" | "markdown" | "missingDay" | "invalidPeriod";
 
 const joinCases: Record<JoinScenario, { label: string; members: string; result: string; code: string; tone: "success" | "error" }> = {
   available: { label: "모집 중 · 한 자리 남음", members: "5 / 6명", result: "신청이 접수되었습니다. 방장 승인 대기 상태예요.", code: "PENDING", tone: "success" },
-  full: { label: "정원 마감", members: "6 / 6명", result: "정원이 모두 찼습니다.", code: "CAPACITY_FULL", tone: "error" },
+  full: { label: "정원 마감", members: "6 / 6명", result: "크루 정원이 가득 찼습니다.", code: "CAPACITY_FULL", tone: "error" },
   closed: { label: "모집 종료", members: "5 / 6명", result: "모집 기간이 종료된 크루입니다.", code: "CREW_NOT_RECRUITING", tone: "error" },
 };
 
