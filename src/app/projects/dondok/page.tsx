@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import DondokDemo from "./DondokDemo";
 import styles from "./dondok.module.css";
@@ -78,10 +77,6 @@ export default function DondokPage() {
           <div><span>03</span><strong>동시 가입</strong><p>정원 초과와 중복 신청을 구분하는 정합성 제어</p></div>
           <div><span>04</span><strong>제품 기반</strong><p>Next.js 공통 UI, 인증 복구, PWA와 Vercel 배포 환경</p></div>
         </div>
-        <figure className={styles.architectureFigure}>
-          <Image src="/portfolio-assets/dondok-architecture.png" width={1300} height={945} alt="Dondok의 사용자, Next.js 프론트엔드, Spring Boot 백엔드, MySQL과 외부 서비스 연동 구조" />
-          <figcaption>서비스 전체 아키텍처</figcaption>
-        </figure>
       </section>
 
       <section className={styles.contributionSection}>

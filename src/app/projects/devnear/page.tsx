@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import DevnearDemo from "./DevnearDemo";
 import styles from "./devnear.module.css";
@@ -91,10 +90,6 @@ export default function DevnearPage() {
           <div><span>03</span><strong>매칭·조회</strong><p>지역 선필터링, 규칙 기반 점수와 DB 페이지네이션</p></div>
           <div><span>04</span><strong>화면 연동</strong><p>로그인, 회원가입, 프리랜서 탐색·상세 화면 API 연결</p></div>
         </div>
-        <figure className={styles.architectureFigure}>
-          <Image src="/portfolio-assets/devnear-architecture.png" width={1400} height={875} alt="DevNear의 Next.js 프론트엔드, JWT 인증, 요청 범위 사용자 조회, 규칙 기반 매칭 엔진, MySQL과 Redis 구조" />
-          <figcaption>서비스 전체 아키텍처</figcaption>
-        </figure>
       </section>
 
       <section className={styles.contributionSection}>

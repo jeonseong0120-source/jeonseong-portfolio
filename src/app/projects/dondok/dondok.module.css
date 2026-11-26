@@ -107,9 +107,6 @@
 .scopeList span { color: #8e8e93; font-size: 12px; font-weight: 800; }
 .scopeList strong { font-size: 18px; }
 .scopeList p { margin: 0; color: #6e6e73; font-size: 15px; line-height: 1.6; word-break: keep-all; }
-.architectureFigure { margin: 54px 0 0; padding: 18px; border: 1px solid #d2d2d7; border-radius: 22px; background: #fff; }
-.architectureFigure img { display: block; width: 100%; height: auto; border-radius: 12px; }
-.architectureFigure figcaption { margin: 12px 4px 0; color: #555b57; font-size: 13px; font-weight: 700; }
 .contributionSection { padding-top: 110px; padding-bottom: 44px; background: #fff; }
 .contributionSection > .sectionIntro { margin-bottom: 92px; }
 .contribution { min-height: 610px; display: grid; grid-template-columns: minmax(0, .88fr) minmax(420px, 1.12fr); align-items: center; gap: clamp(48px, 6vw, 100px); padding: 76px 0; border-top: 1px solid #d2d2d7; }
@@ -201,8 +198,6 @@
   .scopeList > div { grid-template-columns: 34px 1fr; gap: 10px 12px; padding: 24px 0; }
   .scopeList > div:nth-child(n) { margin: 0; }
   .scopeList p { grid-column: 2; }
-  .architectureFigure { margin-top: 38px; padding: 10px; border-radius: 16px; overflow-x: auto; }
-  .architectureFigure img { min-width: 620px; }
   .contributionSection { padding-top: 104px; }
   .contributionSection > .sectionIntro { margin-bottom: 80px; }
   .contribution { min-height: auto; grid-template-columns: 1fr; gap: 58px; padding: 88px 0; }
