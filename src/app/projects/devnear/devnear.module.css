@@ -19,7 +19,7 @@
 .factTech dd { display: flex; flex-wrap: wrap; column-gap: 7px; row-gap: 5px; }
 .factTech dd span { white-space: nowrap; }
 .factTech dd i { margin-right: 7px; color: #857971; font-style: normal; }
-.heroBrowser { width: 760px; overflow: hidden; border: 1px solid rgba(255,255,255,.9); border-radius: 24px; background: #fff; box-shadow: 0 38px 90px rgba(137,73,30,.2); }
+.heroBrowser { width: min(760px, 100%); overflow: hidden; border: 1px solid rgba(255,255,255,.9); border-radius: 24px; background: #fff; box-shadow: 0 38px 90px rgba(137,73,30,.2); }
 .browserTop,.demoBrowserTop { min-height: 44px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 18px; border-bottom: 1px solid #e7e7e7; background: #f7f7f7; }
 .browserTop > div,.demoBrowserTop > div { display: flex; gap: 7px; }
 .browserTop > div span,.demoBrowserTop > div span { width: 9px; aspect-ratio: 1; border-radius: 50%; background: #d4d4d4; }
