@@ -130,7 +130,6 @@ export default function DondokPage() {
               기능마다 현재 날짜를 다시 계산하면 같은 크루를 서로 다른 상태로 판단할 수 있습니다.
               KST 자정을 기준으로 모집 결과와 미션 종료 상태를 순서대로 확정했습니다.
             </p>
-            <p className={styles.decision}><strong>판단</strong>프롬프트 형식 지시만으로 도메인 규칙을 보장할 수 없어 AI 응답을 검증 후 수정 가능한 초안으로 취급했습니다.</p>
             <ul>
               <li>모집 완료 시 최소 인원 충족 여부에 따라 활성화 또는 취소</li>
               <li>진행 종료일이 지난 크루를 종료 상태로 전환</li>
@@ -160,6 +159,7 @@ export default function DondokPage() {
               잘못된 요일을 막을 수 없었습니다. 파싱과 도메인 검증을 통과한 결과만 수정 가능한
               초안으로 제공했습니다.
             </p>
+            <p className={styles.decision}><strong>판단</strong>프롬프트 형식 지시만으로 도메인 규칙을 보장할 수 없어 AI 응답을 검증 후 수정 가능한 초안으로 취급했습니다.</p>
             <ul>
               <li>Markdown 코드 블록 제거 후 JSON 파싱</li>
               <li>빈 응답과 파싱 실패를 모두 유효하지 않은 AI 응답 오류로 처리</li>
