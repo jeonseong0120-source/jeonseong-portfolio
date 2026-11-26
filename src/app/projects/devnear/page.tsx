@@ -35,7 +35,7 @@ export default function DevnearPage() {
             <div><dt>기간</dt><dd>2026.04.03 – 2026.04.27</dd></div>
             <div><dt>팀</dt><dd>4명</dd></div>
             <div><dt>역할</dt><dd>저장소 관리 · 백엔드 · 프론트엔드</dd></div>
-            <div><dt>기술</dt><dd>Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Redis · React</dd></div>
+            <div><dt>기술</dt><dd>Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Redis · Next.js 16 · React</dd></div>
           </dl>
         </div>
 
@@ -109,7 +109,7 @@ export default function DevnearPage() {
             </p>
             <p className={styles.decision}><strong>판단</strong>화면 분기만으로는 API별 접근 기준을 일관되게 보장하기 어려워 역할을 API 접근 기준으로 사용했습니다.</p>
             <ul>
-              <li>CLIENT·FREELANCER·BOTH 역할을 API 접근 기준으로 사용</li>
+              <li>CLIENT·FREELANCER·BOTH 세 역할 구분</li>
               <li>JWT Claim으로 인증 필터 단계의 사용자 DB 조회 제거</li>
               <li>요청 범위 UserContext로 같은 요청의 중복 조회 최소화</li>
             </ul>
@@ -145,7 +145,7 @@ export default function DevnearPage() {
             </div>
           </div>
           <div className={`${styles.flowVisual} ${styles.matchVisual}`} aria-label="규칙 기반 매칭 점수 구성">
-            <div className={styles.scoreRing}><strong>89</strong><span>추천 점수</span></div>
+            <div className={styles.scoreRing}><strong>0.89</strong><span>추천 점수</span></div>
             <div className={styles.scoreRows}>
               <div><span>기술 일치도</span><i><b style={{ width: "92%" }} /></i><strong>50%</strong></div>
               <div><span>평점</span><i><b style={{ width: "84%" }} /></i><strong>30%</strong></div>
@@ -166,7 +166,6 @@ export default function DevnearPage() {
             <ul>
               <li>P6Spy로 DELETE·INSERT 실행 순서 확인</li>
               <li>컬렉션 clear 후 flush로 삭제를 DB에 먼저 반영</li>
-              <li>같은 기술을 다시 추가해도 DELETE 이후 INSERT되도록 순서 고정</li>
             </ul>
             <div className={styles.evidenceGrid}>
               <p><strong>확인</strong>P6Spy 로그에서 DELETE 다음 INSERT가 실행되는지 확인했습니다.</p>
@@ -183,7 +182,7 @@ export default function DevnearPage() {
         <article className={`${styles.contribution} ${styles.reverseContribution}`}>
           <div className={styles.contributionCopy}>
             <span>04 · 트러블슈팅 · 저장 후 프로필 404</span>
-            <h3>저장된 프로필이<br />바로 사라져 보이지 않도록.</h3>
+            <h3>저장한 프로필이<br />바로 조회되도록.</h3>
             <p>
               온보딩에서 프로필을 저장했지만 User 객체에는 새 프로필이 연결되지 않아,
               같은 흐름의 다음 조회에서 프로필이 없다는 404가 발생했습니다. 저장이 반환한 영속 객체를
