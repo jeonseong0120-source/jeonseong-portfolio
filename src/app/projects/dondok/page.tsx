@@ -97,8 +97,7 @@ export default function DondokPage() {
             <p className={styles.decision}><strong>판단</strong>DB 잠금을 오래 점유하기보다 변경 충돌을 감지해 실패 요청을 명확히 반환하는 낙관적 락을 선택했습니다.</p>
             <ul>
               <li>모집 상태·마감 시각·현재 인원 재확인</li>
-              <li>버전 충돌과 중복 신청 오류를 서로 다른 응답으로 분리</li>
-              <li>서버에서 정원 초과·모집 마감·중복 신청을 서로 다른 오류 코드로 반환</li>
+              <li>버전 충돌·정원 초과·모집 마감·중복 신청을 서로 다른 오류 코드로 반환</li>
             </ul>
             <div className={styles.evidenceGrid}>
               <p><strong>확인</strong>서비스 테스트에서 낙관적 락 예외가 CONCURRENT_PAYMENT_ERROR로 변환되는지 확인했습니다.</p>
@@ -181,7 +180,7 @@ export default function DondokPage() {
         <h2>화면이 열리는 순간까지<br />서버의 책임이라고 생각했습니다.</h2>
         <span>
           정상 요청뿐 아니라 동시 신청, 일정 경계, 외부 응답의 불확실성을 기능 설계에 포함했습니다.
-          프론트엔드까지 직접 연결하며 API의 상태와 식별자가 실제 사용자 경험으로 이어지는 과정을 확인했습니다.
+          프론트엔드까지 함께 연결하며 API 요청·응답, 인증 상태, 서버 상태 전환이 사용자 경험으로 이어지는 방식을 확인했습니다.
         </span>
         <div className={styles.outroLinks}>
           <a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">Backend GitHub</a>
