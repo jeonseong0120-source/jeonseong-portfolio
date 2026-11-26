@@ -10,9 +10,15 @@
 .heroLinks { display: flex; gap: 12px; margin-top: 36px; }
 .heroLinks a { min-height: 48px; display: inline-flex; align-items: center; padding: 0 23px; border: 1px solid #df681b; border-radius: 999px; color: #bd4c06; font-size: 15px; font-weight: 750; }
 .heroLinks a:first-child { background: #e96c1a; color: #fff; }
-.facts { max-width: 820px; display: grid; grid-template-columns: 1.1fr .5fr 1.1fr 1.9fr; gap: 16px; margin: 56px 0 0; padding-top: 22px; border-top: 1px solid rgba(29,29,31,.16); }
+.facts { max-width: 820px; margin: 56px 0 0; padding-top: 22px; border-top: 1px solid rgba(29,29,31,.16); }
+.factMeta { display: grid; grid-template-columns: 1.1fr .5fr 1.25fr; gap: 16px; }
+.facts div { min-width: 0; }
 .facts dt { margin-bottom: 8px; color: #857971; font-size: 12px; font-weight: 700; }
-.facts dd { margin: 0; font-size: 13px; font-weight: 650; white-space: nowrap; word-break: keep-all; }
+.facts dd { margin: 0; font-size: 13px; font-weight: 650; word-break: keep-all; }
+.factTech { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; margin-top: 18px; }
+.factTech dd { display: flex; flex-wrap: wrap; column-gap: 7px; row-gap: 5px; }
+.factTech dd span { white-space: nowrap; }
+.factTech dd i { margin-right: 7px; color: #857971; font-style: normal; }
 .heroBrowser { width: 760px; overflow: hidden; border: 1px solid rgba(255,255,255,.9); border-radius: 24px; background: #fff; box-shadow: 0 38px 90px rgba(137,73,30,.2); }
 .browserTop,.demoBrowserTop { min-height: 44px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 18px; border-bottom: 1px solid #e7e7e7; background: #f7f7f7; }
 .browserTop > div,.demoBrowserTop > div { display: flex; gap: 7px; }
@@ -103,7 +109,7 @@
 @media (max-width: 900px) {
   .headerInner { width: min(100% - 32px,1240px); }
   .hero { min-height: auto; grid-template-columns: 1fr; gap: 72px; padding: 84px 16px 84px; }.heroCopy { padding: 0 6px; text-align: center; }.eyebrow { font-size: 15px; }.hero h1 { font-size: clamp(44px,14vw,72px); }.lead { margin-left: auto; margin-right: auto; font-size: 17px; }.heroLinks { justify-content: center; }
-  .facts { grid-template-columns: 1fr; gap: 14px; text-align: left; }.facts div { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; }.facts dt { margin: 0; }.facts dd { max-width: 70%; text-align: right; white-space: normal; }
+  .facts { text-align: left; }.factMeta { display: grid; grid-template-columns: 1fr; gap: 14px; }.facts div { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; }.facts dt { margin: 0; }.facts dd { max-width: 70%; text-align: right; white-space: normal; }.factTech { display: flex; margin-top: 14px; }.factTech dd { justify-content: flex-end; }
   .heroBrowser { width: calc(100% + 16px); transform: none; border-radius: 20px 0 0 20px; }.browserContent { grid-template-columns: 100px 1fr; min-height: 460px; }.browserContent aside { padding: 18px 10px; }.heroResults { padding: 18px 14px; }.profileGrid { gap: 9px; }.profileImage { height: 72px; }
   .demoSection { padding: 104px 16px; }.demoHeading { margin-bottom: 56px; text-align: center; }.demoHeading h2 { font-size: 50px; }.demoHeading > span { font-size: 15px; }.demoStage { grid-template-columns: 1fr; gap: 62px; }.stepTabs { overflow-x: auto; grid-template-columns: repeat(4,minmax(92px,1fr)); }.stepDescription { min-height: 280px; padding-top: 48px; text-align: center; }.stepDescription h3 { font-size: clamp(34px,10vw,42px); word-break: normal; }.stepDescription > span { font-size: 15px; }.stepControls { justify-content: center; }.demoBrowser { width: min(100%,620px); }.roleCards { padding-left: 18px; padding-right: 18px; }.screenTitle,.conditionBody { padding-left: 22px; padding-right: 22px; }
   .scopeSection,.contributionSection,.outroSection { padding-left: 22px; padding-right: 22px; }.scopeSection { padding-top: 78px; padding-bottom: 78px; }.sectionIntro,.outroSection { text-align: center; }.sectionIntro h2,.outroSection h2 { font-size: clamp(42px,13vw,50px); }.sectionIntro > span,.outroSection > span { font-size: 16px; }

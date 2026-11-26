@@ -32,10 +32,19 @@ export default function DevnearPage() {
             <a href="https://github.com/jeonseong0120-source/devnear" target="_blank" rel="noreferrer">GitHub</a>
           </div>
           <dl className={styles.facts}>
-            <div><dt>기간</dt><dd>2026.04.03 – 2026.04.27</dd></div>
-            <div><dt>팀</dt><dd>4명</dd></div>
-            <div><dt>역할</dt><dd>저장소 관리 · 백엔드 · 프론트엔드</dd></div>
-            <div><dt>기술</dt><dd>Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Redis · Next.js 16 · React</dd></div>
+            <div className={styles.factMeta}>
+              <div><dt>기간</dt><dd>2026.04.03 – 2026.04.27</dd></div>
+              <div><dt>팀</dt><dd>4명</dd></div>
+              <div><dt>역할</dt><dd>저장소 관리 · 백엔드 · 프론트엔드</dd></div>
+            </div>
+            <div className={styles.factTech}>
+              <dt>기술</dt>
+              <dd>
+                {['Java 17', 'Spring Boot', 'JPA', 'QueryDSL', 'MySQL', 'Redis', 'Next.js 16', 'React'].map((skill, index) => (
+                  <span key={skill}>{index > 0 && <i>·</i>}{skill}</span>
+                ))}
+              </dd>
+            </div>
           </dl>
         </div>
 

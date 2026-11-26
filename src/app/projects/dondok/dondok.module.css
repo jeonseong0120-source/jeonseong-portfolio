@@ -10,10 +10,15 @@
 .heroLinks { display: flex; gap: 12px; margin-top: 36px; }
 .heroLinks a { min-height: 48px; display: inline-flex; align-items: center; padding: 0 23px; border: 1px solid #36845e; border-radius: 999px; color: #27704d; font-size: 15px; font-weight: 700; }
 .heroLinks a:first-child { background: #36845e; color: #fff; }
-.facts { max-width: 800px; display: grid; grid-template-columns: 1.1fr .5fr 1fr 1.9fr; gap: 16px; margin: 58px 0 0; padding-top: 22px; border-top: 1px solid rgba(29, 29, 31, .16); }
+.facts { max-width: 800px; margin: 58px 0 0; padding-top: 22px; border-top: 1px solid rgba(29, 29, 31, .16); }
+.factMeta { display: grid; grid-template-columns: 1.1fr .5fr 1.2fr; gap: 16px; }
 .facts div { min-width: 0; }
 .facts dt { margin-bottom: 8px; color: #7a807c; font-size: 12px; font-weight: 700; }
-.facts dd { margin: 0; font-size: 14px; font-weight: 650; white-space: nowrap; word-break: keep-all; }
+.facts dd { margin: 0; font-size: 14px; font-weight: 650; word-break: keep-all; }
+.factTech { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; margin-top: 18px; }
+.factTech dd { display: flex; flex-wrap: wrap; column-gap: 7px; row-gap: 5px; }
+.factTech dd span { white-space: nowrap; }
+.factTech dd i { margin-right: 7px; color: #7a807c; font-style: normal; }
 .heroPhone { position: relative; align-self: end; width: min(100%, 390px); min-height: 710px; justify-self: center; overflow: hidden; padding: 12px; border: 2px solid rgba(255, 255, 255, .84); border-bottom: 0; border-radius: 62px 62px 0 0; background: #111; box-shadow: 0 38px 80px rgba(35, 72, 50, .26); transform: rotate(1.4deg); }
 .phoneIsland, .demoIsland { position: absolute; z-index: 4; width: 106px; height: 28px; top: 21px; left: 50%; border-radius: 999px; background: #050505; transform: translateX(-50%); }
 .phoneHeader { height: 76px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 24px 16px; border-radius: 48px 48px 0 0; background: #f1e5f3; font-size: 13px; }
@@ -172,10 +177,13 @@
   .hero h1 { font-size: clamp(44px, 14vw, 74px); }
   .lead { margin-left: auto; margin-right: auto; font-size: 17px; }
   .heroLinks { justify-content: center; }
-  .facts { grid-template-columns: 1fr; gap: 14px; text-align: left; }
+  .facts { text-align: left; }
+  .factMeta { display: grid; grid-template-columns: 1fr; gap: 14px; }
   .facts div { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
   .facts dt { margin: 0; }
   .facts dd { max-width: 68%; font-size: 12px; text-align: right; white-space: normal; }
+  .factTech { display: flex; margin-top: 14px; }
+  .factTech dd { justify-content: flex-end; }
   .heroPhone { width: min(100%, 320px); min-height: 650px; }
   .demoSection { padding: 104px 16px; }
   .demoHeading { margin-bottom: 56px; text-align: center; }

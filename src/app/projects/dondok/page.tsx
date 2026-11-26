@@ -32,10 +32,19 @@ export default function DondokPage() {
             <a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">GitHub</a>
           </div>
           <dl className={styles.facts}>
-            <div><dt>기간</dt><dd>2026.05.22 – 2026.06.26</dd></div>
-            <div><dt>팀</dt><dd>5명</dd></div>
-            <div><dt>역할</dt><dd>백엔드 · 프론트엔드</dd></div>
-            <div><dt>기술</dt><dd>Java 17 · Spring Boot · JPA · QueryDSL · MySQL · Next.js 16 · TypeScript</dd></div>
+            <div className={styles.factMeta}>
+              <div><dt>기간</dt><dd>2026.05.22 – 2026.06.26</dd></div>
+              <div><dt>팀</dt><dd>5명</dd></div>
+              <div><dt>역할</dt><dd>백엔드 · 프론트엔드</dd></div>
+            </div>
+            <div className={styles.factTech}>
+              <dt>기술</dt>
+              <dd>
+                {['Java 17', 'Spring Boot', 'JPA', 'QueryDSL', 'MySQL', 'Next.js 16', 'TypeScript'].map((skill, index) => (
+                  <span key={skill}>{index > 0 && <i>·</i>}{skill}</span>
+                ))}
+              </dd>
+            </div>
           </dl>
         </div>
 
