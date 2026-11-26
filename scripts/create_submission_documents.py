@@ -108,8 +108,8 @@ def resume(path: Path, include_phone: bool = True):
     txt(c, "API 구현에서 끝내지 않고, 실제 사용자 흐름과 화면 동작까지", x, H - 205, 9.2, MUTED)
     txt(c, "함께 확인하며 개발합니다.", x, H - 221, 9.2, MUTED)
     bold(c, "TECH STACK", x, H - 251, 11.8)
-    txt(c, "Java 17 · Spring Boot · Spring Security · JPA · QueryDSL · MySQL", x, H - 268, 8.0, HexColor("#555555"))
-    txt(c, "Redis · Docker · React · TypeScript · Next.js", x, H - 282, 8.0, HexColor("#555555"))
+    txt(c, "Java 17 · Spring Boot · Spring Security · JPA · QueryDSL · MySQL", x, H - 268, 8.4, MUTED)
+    txt(c, "Redis · Docker · React · TypeScript · Next.js", x, H - 282, 8.4, MUTED)
     rule(c, 35, H - 335, W - 70, HexColor("#555555"), 0.7)
 
     # Two projects replace the former three-column proof band.
@@ -122,17 +122,17 @@ def resume(path: Path, include_phone: bool = True):
         txt(c, number, px, H - 395, 8.5, MUTED)
         bold(c, title, px, H - 413, 8.7)
         line1, line2 = detail.split("\n")
-        txt(c, line1, px, H - 431, 8.0, HexColor("#555555"))
-        txt(c, line2, px, H - 444, 8.0, HexColor("#555555"))
+        txt(c, line1, px, H - 431, 8.4, MUTED)
+        txt(c, line2, px, H - 444, 8.4, MUTED)
 
     bold(c, "SELECTED EXPERIENCE", 35, H - 484, 15.5)
     rule(c, 35, H - 494, W - 70, HexColor("#AAAAAA"), 0.5)
     bold(c, "(주)그렙 AI Team Internship", 35, H - 513, 10.5)
     txt(c, "2026.07 - 2026.08", 430, H - 513, 8.3, MUTED)
-    txt(c, "4인 팀에서 MVP 범위·일정 조율, 주요 화면 구현과 API 연동, 발표 준비 수행", 35, H - 533, 8.0, MUTED)
+    txt(c, "4인 팀에서 MVP 범위·일정 조율, 주요 화면 구현과 API 연동, 발표 준비 수행", 35, H - 533, 8.4, MUTED)
     bold(c, "프로그래머스 데브코스 AI 백엔드 과정", 35, H - 558, 10.5)
     txt(c, "2025.12 - 2026.06", 430, H - 558, 8.3, MUTED)
-    txt(c, "Web/App 서비스 팀 프로젝트 4회 수행", 35, H - 578, 8.0, MUTED)
+    txt(c, "Web/App 서비스 팀 프로젝트 4회 수행", 35, H - 578, 8.4, MUTED)
     rule(c, 0, H - 603, W, HexColor("#8E8E8E"), 0.5)
 
     bold(c, "EDUCATION", 35, H - 638, 14)
@@ -149,22 +149,22 @@ def resume(path: Path, include_phone: bool = True):
         ("시각장애인을 위한 라이다 센서를 활용한 장애물 감지", "한국컴퓨터정보학회 동계학술대회 · 공동저자 · 2023.01"),
         ("아두이노와 안드로이드 OS를 이용한 온도측정 시스템 구현", "한국컴퓨터정보학회 하계학술대회 · 공동저자 · 2022.07"),
     ]
-    ay = H - 670
+    ay = H - 663
     for title, note in academics:
         txt(c, title, 235, ay, 7.7)
         txt(c, note, 235, ay - 20, 7.1, MUTED)
-        ay -= 55
+        ay -= 43
 
-    rule(c, 35, 42, W - 70, HexColor("#AAAAAA"), 0.5)
-    bold(c, "CONTACT", 35, 23, 9.5)
+    rule(c, 35, 62, W - 70, HexColor("#AAAAAA"), 0.5)
+    bold(c, "CONTACT", 35, 43, 9.5)
     contact = "010-4679-4787  ·  jeonseong0120@gmail.com" if include_phone else "jeonseong0120@gmail.com"
     contact_x = 110 if include_phone else 190
-    txt(c, contact, contact_x, 23, 7.3, MUTED)
-    txt(c, "github.com/jeonseong0120-source", 335, 23, 7.3, MUTED)
-    txt(c, "jeonseong-portfolio.vercel.app", 335, 12, 7.3, ACCENT)
-    c.linkURL("mailto:jeonseong0120@gmail.com", (contact_x, 20, 315, 34), relative=0)
-    c.linkURL("https://github.com/jeonseong0120-source", (335, 20, 530, 34), relative=0)
-    c.linkURL("https://jeonseong-portfolio.vercel.app", (335, 10, 530, 21), relative=0)
+    txt(c, contact, contact_x, 43, 7.3, MUTED)
+    txt(c, "github.com/jeonseong0120-source", 335, 43, 7.3, MUTED)
+    txt(c, "jeonseong-portfolio.vercel.app", 335, 30, 7.3, ACCENT)
+    c.linkURL("mailto:jeonseong0120@gmail.com", (contact_x, 40, 315, 54), relative=0)
+    c.linkURL("https://github.com/jeonseong0120-source", (335, 40, 530, 54), relative=0)
+    c.linkURL("https://jeonseong-portfolio.vercel.app", (335, 28, 530, 39), relative=0)
     c.save()
 
 
