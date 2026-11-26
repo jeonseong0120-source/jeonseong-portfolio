@@ -191,7 +191,7 @@ export default function DondokPage() {
         <div className={styles.outroLinks}>
           <a href="https://github.com/jeonseong0120-source/dondok-be" target="_blank" rel="noreferrer">Backend GitHub</a>
           <a href="https://github.com/jeonseong0120-source/dondok-fe" target="_blank" rel="noreferrer">Frontend GitHub</a>
-          <a href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">설계 판단·트러블슈팅 전문 보기 →</a>
+          <a href="https://decisive-act-f75.notion.site/e8d230df73de8220857881e129bd0f6d" target="_blank" rel="noreferrer">설계 판단·트러블슈팅 전문 보기 →</a>
           <Link href="/projects/devnear">다음 프로젝트 · DEVNEAR</Link>
         </div>
       </section>

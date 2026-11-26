@@ -221,7 +221,7 @@ export default function DevnearPage() {
         </span>
         <div className={styles.outroLinks}>
           <a href="https://github.com/jeonseong0120-source/devnear" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">설계 판단·트러블슈팅 전문 보기 →</a>
+          <a href="https://decisive-act-f75.notion.site/3d0230df73de813f98d1c60edf52a000" target="_blank" rel="noreferrer">설계 판단·트러블슈팅 전문 보기 →</a>
           <Link href="/projects/dondok">이전 프로젝트 · DONDOK</Link>
           <Link href="/">홈으로</Link>
         </div>

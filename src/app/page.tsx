@@ -83,7 +83,7 @@ export default function Home() {
         <div className="experience-list">
           <article>
             <time>2026.07 – 2026.08</time>
-            <div><strong>(주)그렙 AI Team Internship</strong><p>4인 팀 팀장 · 백엔드 API, 프론트엔드 연동, 교차 점검과 일정 조율</p><a className="experience-note" href="https://decisive-act-f75.notion.site/f29230df73de826b892f8163ca510f50" target="_blank" rel="noreferrer">Readle 작업 노트 보기 →</a></div>
+            <div><strong>(주)그렙 AI Team Internship</strong><p>4인 팀 팀장 · 백엔드 API, 프론트엔드 연동, 교차 점검과 일정 조율</p><a className="experience-note" href="https://decisive-act-f75.notion.site/3d0230df73de81e78f4eddad86bd4867" target="_blank" rel="noreferrer">Readle 작업 노트 보기 →</a></div>
           </article>
           <article>
             <time>2025.12 – 2026.06</time>
